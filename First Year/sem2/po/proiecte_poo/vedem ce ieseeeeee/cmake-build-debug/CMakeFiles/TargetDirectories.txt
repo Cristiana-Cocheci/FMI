@@ -1,3 +1,0 @@
-C:/Users/Paula/Desktop/anul1/sem2/po/vedem ce ieseeeeee/cmake-build-debug/CMakeFiles/vedem_ce_ieseeeeee.dir
-C:/Users/Paula/Desktop/anul1/sem2/po/vedem ce ieseeeeee/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Paula/Desktop/anul1/sem2/po/vedem ce ieseeeeee/cmake-build-debug/CMakeFiles/rebuild_cache.dir
