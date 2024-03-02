@@ -1,0 +1,896 @@
+cristi@cristi-VirtualBox:~$ echo cristi> file1
+
+cristi@cristi-VirtualBox:~$ cat file1
+
+cristi
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  Music  Pictures  snap       Videos
+
+Documents  file1      peda   Public    Templates
+
+cristi@cristi-VirtualBox:~$ rm file1
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  peda      Public  Templates
+
+Documents  Music      Pictures  snap    Videos
+
+cristi@cristi-VirtualBox:~$ echo cristi> file1
+
+cristi@cristi-VirtualBox:~$ echo hello>> file1
+
+cristi@cristi-VirtualBox:~$ cat file1
+
+cristi
+
+hello
+
+cristi@cristi-VirtualBox:~$ ls | grep P
+
+Pictures
+
+Public
+
+cristi@cristi-VirtualBox:~$ ls | grep*
+
+Command 'grep*' not found, did you mean:
+
+  command 'grep' from deb grep (3.7-1build1)
+
+Try: sudo apt install <deb name>
+
+cristi@cristi-VirtualBox:~$ ls | grep *
+
+grep: Documents: Is a directory
+
+grep: Downloads: Is a directory
+
+grep: Music: Is a directory
+
+grep: peda: Is a directory
+
+grep: Pictures: Is a directory
+
+grep: Public: Is a directory
+
+grep: snap: Is a directory
+
+grep: Templates: Is a directory
+
+grep: Videos: Is a directory
+
+cristi@cristi-VirtualBox:~$ file1 | grep hell
+
+Command 'file1' not found, did you mean:
+
+  command 'file2' from deb file-kanji (1.1-20)
+
+  command 'file' from deb file (1:5.41-3ubuntu0.1)
+
+Try: sudo apt install <deb name>
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  Music  Pictures  snap       Videos
+
+Documents  file1      peda   Public    Templates
+
+cristi@cristi-VirtualBox:~$ ls | grep file1 | grep hell
+
+cristi@cristi-VirtualBox:~$ cat file1
+
+cristi
+
+hello
+
+cristi@cristi-VirtualBox:~$ rm file1
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  peda      Public  Templates
+
+Documents  Music      Pictures  snap    Videos
+
+cristi@cristi-VirtualBox:~$ nano file.c
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  Music  Pictures  snap       Videos
+
+Documents  file.c     peda   Public    Templates
+
+cristi@cristi-VirtualBox:~$ gcc file.c -o file
+
+file.c: In function ‘main’:
+
+file.c:6:16: warning: ‘return’ with a value, in function returning void
+
+    6 |         return 0;
+
+      |                ^
+
+file.c:3:6: note: declared here
+
+    3 | void main()
+
+      |      ^~~~
+
+cristi@cristi-VirtualBox:~$ nano file.c
+
+cristi@cristi-VirtualBox:~$ gcc file.c -o file
+
+cristi@cristi-VirtualBox:~$ ./file
+
+helloworld
+
+cristi@cristi-VirtualBox:~$ move file executable
+
+Command 'move' not found, did you mean:
+
+  command 'mote' from snap mote (2.0.5)
+
+  command 'movx' from snap movx (2.0.1)
+
+  command 'love' from snap love (11.2+pkg-d332)
+
+  command 'love' from deb love (11.3-1)
+
+  command 'more' from deb util-linux (2.37.2-4ubuntu3)
+
+  command 'lmove' from deb suck (4.3.4-1build1)
+
+  command 'jove' from deb jove (4.17.3.6-2)
+
+  command 'mmove' from deb mtools (4.0.33-1+really4.0.32-1build1)
+
+See 'snap info <snapname>' for additional versions.
+
+cristi@cristi-VirtualBox:~$ mv file executable
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads   file.c  peda      Public  Templates
+
+Documents  executable  Music   Pictures  snap    Videos
+
+cristi@cristi-VirtualBox:~$ mv file.c SO
+
+cristi@cristi-VirtualBox:~$ mv executable SO
+
+cristi@cristi-VirtualBox:~$ ls SO
+
+SO
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  peda      Public  SO         Videos
+
+Documents  Music      Pictures  snap    Templates
+
+cristi@cristi-VirtualBox:~$ nano file.c
+
+
+
+cristi@cristi-VirtualBox:~$ nano file.c
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  Music  Pictures  snap       Videos
+
+Documents  file.c     peda   Public    Templates
+
+cristi@cristi-VirtualBox:~$ cd desktop
+
+bash: cd: desktop: No such file or directory
+
+cristi@cristi-VirtualBox:~$ cd SO
+
+bash: cd: SO: No such file or directory
+
+cristi@cristi-VirtualBox:~$ .
+
+bash: .: filename argument required
+
+.: usage: . filename [arguments]
+
+cristi@cristi-VirtualBox:~$ cd path
+
+bash: cd: path: No such file or directory
+
+cristi@cristi-VirtualBox:~$ cd Home
+
+bash: cd: Home: No such file or directory
+
+cristi@cristi-VirtualBox:~$ ls
+
+Desktop    Downloads  peda      Public  Templates
+
+Documents  Music      Pictures  snap    Videos
+
+cristi@cristi-VirtualBox:~$ cd Desktop
+
+cristi@cristi-VirtualBox:~/Desktop$ cd SO
+
+cristi@cristi-VirtualBox:~/Desktop/SO$ mkdir Lab1
+
+cristi@cristi-VirtualBox:~/Desktop/SO$ cd Lab1
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ gcc file.c -o file
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ ./file
+
+HelloWorld
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ mv file fileExe
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ ls
+
+file.c  fileExe
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ strace ./fileExe
+
+execve("./fileExe", ["./fileExe"], 0x7fff249941c0 /* 54 vars */) = 0
+
+brk(NULL)                               = 0x55e418973000
+
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fff8fea4270) = -1 EINVAL (Invalid argument)
+
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f750fe2b000
+
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=67015, ...}, AT_EMPTY_PATH) = 0
+
+mmap(NULL, 67015, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f750fe1a000
+
+close(3)                                = 0
+
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340."..., 68, 896) = 68
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f750fbf2000
+
+mmap(0x7f750fc1a000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7f750fc1a000
+
+mmap(0x7f750fdaf000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7f750fdaf000
+
+mmap(0x7f750fe07000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7f750fe07000
+
+mmap(0x7f750fe0d000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f750fe0d000
+
+close(3)                                = 0
+
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f750fbef000
+
+arch_prctl(ARCH_SET_FS, 0x7f750fbef740) = 0
+
+set_tid_address(0x7f750fbefa10)         = 4477
+
+set_robust_list(0x7f750fbefa20, 24)     = 0
+
+rseq(0x7f750fbf00e0, 0x20, 0, 0x53053053) = 0
+
+mprotect(0x7f750fe07000, 16384, PROT_READ) = 0
+
+mprotect(0x55e417d6e000, 4096, PROT_READ) = 0
+
+mprotect(0x7f750fe65000, 8192, PROT_READ) = 0
+
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+
+munmap(0x7f750fe1a000, 67015)           = 0
+
+newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x1), ...}, AT_EMPTY_PATH) = 0
+
+getrandom("\x1e\xf4\x1a\xf4\xbe\x48\x94\xbb", 8, GRND_NONBLOCK) = 8
+
+brk(NULL)                               = 0x55e418973000
+
+brk(0x55e418994000)                     = 0x55e418994000
+
+write(1, "HelloWorld\n", 11HelloWorld
+
+)            = 11
+
+exit_group(11)                          = ?
+
++++ exited with 11 +++
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ nano file.c
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ gcc file.c -o fileExe
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ ./file Exe
+
+bash: ./file: No such file or directory
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ ./fileExe
+
+HelloWorld
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ strace ./fileExe
+
+execve("./fileExe", ["./fileExe"], 0x7ffe56634680 /* 54 vars */) = 0
+
+brk(NULL)                               = 0x557da9822000
+
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fffda218970) = -1 EINVAL (Invalid argument)
+
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3ae0e82000
+
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=67015, ...}, AT_EMPTY_PATH) = 0
+
+mmap(NULL, 67015, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f3ae0e71000
+
+close(3)                                = 0
+
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340."..., 68, 896) = 68
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3ae0c49000
+
+mmap(0x7f3ae0c71000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7f3ae0c71000
+
+mmap(0x7f3ae0e06000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7f3ae0e06000
+
+mmap(0x7f3ae0e5e000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7f3ae0e5e000
+
+mmap(0x7f3ae0e64000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f3ae0e64000
+
+close(3)                                = 0
+
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3ae0c46000
+
+arch_prctl(ARCH_SET_FS, 0x7f3ae0c46740) = 0
+
+set_tid_address(0x7f3ae0c46a10)         = 4577
+
+set_robust_list(0x7f3ae0c46a20, 24)     = 0
+
+rseq(0x7f3ae0c470e0, 0x20, 0, 0x53053053) = 0
+
+mprotect(0x7f3ae0e5e000, 16384, PROT_READ) = 0
+
+mprotect(0x557da8eb3000, 4096, PROT_READ) = 0
+
+mprotect(0x7f3ae0ebc000, 8192, PROT_READ) = 0
+
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+
+munmap(0x7f3ae0e71000, 67015)           = 0
+
+newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x1), ...}, AT_EMPTY_PATH) = 0
+
+getrandom("\x29\x63\x86\xa9\x7c\x96\x24\xd8", 8, GRND_NONBLOCK) = 8
+
+brk(NULL)                               = 0x557da9822000
+
+brk(0x557da9843000)                     = 0x557da9843000
+
+write(1, "HelloWorld\n", 11HelloWorld
+
+)            = 11
+
+exit_group(11)                          = ?
+
++++ exited with 11 +++
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ nano file.c
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ gcc file.c -o fileExe
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ ./fileExe
+
+HelloWorld
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ strace ./fileExe
+
+execve("./fileExe", ["./fileExe"], 0x7ffdb4faa630 /* 54 vars */) = 0
+
+brk(NULL)                               = 0x5626489f3000
+
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffd7b877a20) = -1 EINVAL (Invalid argument)
+
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbfc089b000
+
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=67015, ...}, AT_EMPTY_PATH) = 0
+
+mmap(NULL, 67015, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fbfc088a000
+
+close(3)                                = 0
+
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340."..., 68, 896) = 68
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fbfc0662000
+
+mmap(0x7fbfc068a000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7fbfc068a000
+
+mmap(0x7fbfc081f000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7fbfc081f000
+
+mmap(0x7fbfc0877000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7fbfc0877000
+
+mmap(0x7fbfc087d000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fbfc087d000
+
+close(3)                                = 0
+
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fbfc065f000
+
+arch_prctl(ARCH_SET_FS, 0x7fbfc065f740) = 0
+
+set_tid_address(0x7fbfc065fa10)         = 4610
+
+set_robust_list(0x7fbfc065fa20, 24)     = 0
+
+rseq(0x7fbfc06600e0, 0x20, 0, 0x53053053) = 0
+
+mprotect(0x7fbfc0877000, 16384, PROT_READ) = 0
+
+mprotect(0x562648083000, 4096, PROT_READ) = 0
+
+mprotect(0x7fbfc08d5000, 8192, PROT_READ) = 0
+
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+
+munmap(0x7fbfc088a000, 67015)           = 0
+
+newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0x1), ...}, AT_EMPTY_PATH) = 0
+
+getrandom("\x49\x79\x05\x38\x48\x8e\xf4\xa6", 8, GRND_NONBLOCK) = 8
+
+brk(NULL)                               = 0x5626489f3000
+
+brk(0x562648a14000)                     = 0x562648a14000
+
+write(1, "HelloWorld\n", 11HelloWorld
+
+)            = 0
+
+exit_group(11)                          = ?
+
++++ exited with 0 +++
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ nm ./fileExe
+
+000000000000038c r __abi_tag
+
+0000000000004010 B __bss_start
+
+0000000000004010 b completed.0
+
+                 w __cxa_finalize@GLIBC_2.2.5
+
+0000000000004000 D __data_start
+
+0000000000004000 W data_start
+
+0000000000001090 t deregister_tm_clones
+
+0000000000001100 t __do_global_dtors_aux
+
+0000000000003dc0 d __do_global_dtors_aux_fini_array_entry
+
+0000000000004008 D __dso_handle
+
+0000000000003dc8 d _DYNAMIC
+
+0000000000004010 D _edata
+
+0000000000004018 B _end
+
+0000000000001164 T _fini
+
+0000000000001140 t frame_dummy
+
+0000000000003db8 d __frame_dummy_init_array_entry
+
+00000000000020f0 r __FRAME_END__
+
+0000000000003fb8 d _GLOBAL_OFFSET_TABLE_
+
+                 w __gmon_start__
+
+0000000000002010 r __GNU_EH_FRAME_HDR
+
+0000000000001000 T _init
+
+0000000000002000 R _IO_stdin_used
+
+                 w _ITM_deregisterTMCloneTable
+
+                 w _ITM_registerTMCloneTable
+
+                 U __libc_start_main@GLIBC_2.34
+
+0000000000001149 T main
+
+                 U puts@GLIBC_2.2.5
+
+00000000000010c0 t register_tm_clones
+
+0000000000001060 T _start
+
+0000000000004010 D __TMC_END__
+
+cristi@cristi-VirtualBox:~/Desktop/SO/Lab1$ gdb ./fileExe
+
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+
+Copyright (C) 2022 Free Software Foundation, Inc.
+
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software: you are free to change and redistribute it.
+
+There is NO WARRANTY, to the extent permitted by law.
+
+Type "show copying" and "show warranty" for details.
+
+This GDB was configured as "x86_64-linux-gnu".
+
+Type "show configuration" for configuration details.
+
+For bug reporting instructions, please see:
+
+<https://www.gnu.org/software/gdb/bugs/>.
+
+Find the GDB manual and other documentation resources online at:
+
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+
+
+For help, type "help".
+
+Type "apropos word" to search for commands related to "word"...
+
+Reading symbols from ./fileExe...
+
+(No debugging symbols found in ./fileExe)
+
+gdb-peda$ ./fileExe
+
+Undefined command: ".".  Try "help".
+
+gdb-peda$ b main
+
+Breakpoint 1 at 0x1151
+
+gdb-peda$ r
+
+Starting program: /home/cristi/Desktop/SO/Lab1/fileExe 
+
+[Thread debugging using libthread_db enabled]
+
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Warning: 'set logging off', an alias for the command 'set logging enabled', is deprecated.
+
+Use 'set logging enabled off'.
+
+
+
+Warning: 'set logging on', an alias for the command 'set logging enabled', is deprecated.
+
+Use 'set logging enabled on'.
+
+
+
+
+
+[----------------------------------registers-----------------------------------]
+
+RAX: 0x555555555149 (<main>:	endbr64)
+
+RBX: 0x0 
+
+RCX: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+RDX: 0x7fffffffe018 --> 0x7fffffffe375 ("SHELL=/bin/bash")
+
+RSI: 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+RDI: 0x1 
+
+RBP: 0x7fffffffdef0 --> 0x1 
+
+RSP: 0x7fffffffdef0 --> 0x1 
+
+RIP: 0x555555555151 (<main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004)
+
+R8 : 0x7ffff7f9cf10 --> 0x4 
+
+R9 : 0x7ffff7fc9040 (<_dl_fini>:	endbr64)
+
+R10: 0x7ffff7fc3908 --> 0xd00120000000e 
+
+R11: 0x7ffff7fde680 (<_dl_audit_preinit>:	endbr64)
+
+R12: 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+R13: 0x555555555149 (<main>:	endbr64)
+
+R14: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+R15: 0x7ffff7ffd040 --> 0x7ffff7ffe2e0 --> 0x555555554000 --> 0x10102464c457f
+
+EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)
+
+[-------------------------------------code-------------------------------------]
+
+   0x555555555149 <main>:	endbr64 
+
+   0x55555555514d <main+4>:	push   rbp
+
+   0x55555555514e <main+5>:	mov    rbp,rsp
+
+=> 0x555555555151 <main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004
+
+   0x555555555158 <main+15>:	mov    rdi,rax
+
+   0x55555555515b <main+18>:	call   0x555555555050 <puts@plt>
+
+   0x555555555160 <main+23>:	nop
+
+   0x555555555161 <main+24>:	pop    rbp
+
+[------------------------------------stack-------------------------------------]
+
+0000| 0x7fffffffdef0 --> 0x1 
+
+0008| 0x7fffffffdef8 --> 0x7ffff7dabd90 (<__libc_start_call_main+128>:	mov    edi,eax)
+
+0016| 0x7fffffffdf00 --> 0x0 
+
+0024| 0x7fffffffdf08 --> 0x555555555149 (<main>:	endbr64)
+
+0032| 0x7fffffffdf10 --> 0x100000000 
+
+0040| 0x7fffffffdf18 --> 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+0048| 0x7fffffffdf20 --> 0x0 
+
+0056| 0x7fffffffdf28 --> 0xbca508022693fa55 
+
+[------------------------------------------------------------------------------]
+
+Legend: code, data, rodata, value
+
+
+
+Breakpoint 1, 0x0000555555555151 in main ()
+
+gdb-peda$ ir
+
+Undefined command: "ir".  Try "help".
+
+gdb-peda$ r
+
+Starting program: /home/cristi/Desktop/SO/Lab1/fileExe 
+
+[Thread debugging using libthread_db enabled]
+
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+
+
+[----------------------------------registers-----------------------------------]
+
+RAX: 0x555555555149 (<main>:	endbr64)
+
+RBX: 0x0 
+
+RCX: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+RDX: 0x7fffffffe018 --> 0x7fffffffe375 ("SHELL=/bin/bash")
+
+RSI: 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+RDI: 0x1 
+
+RBP: 0x7fffffffdef0 --> 0x1 
+
+RSP: 0x7fffffffdef0 --> 0x1 
+
+RIP: 0x555555555151 (<main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004)
+
+R8 : 0x7ffff7f9cf10 --> 0x4 
+
+R9 : 0x7ffff7fc9040 (<_dl_fini>:	endbr64)
+
+R10: 0x7ffff7fc3908 --> 0xd00120000000e 
+
+R11: 0x7ffff7fde680 (<_dl_audit_preinit>:	endbr64)
+
+R12: 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+R13: 0x555555555149 (<main>:	endbr64)
+
+R14: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+R15: 0x7ffff7ffd040 --> 0x7ffff7ffe2e0 --> 0x555555554000 --> 0x10102464c457f
+
+EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)
+
+[-------------------------------------code-------------------------------------]
+
+   0x555555555149 <main>:	endbr64 
+
+   0x55555555514d <main+4>:	push   rbp
+
+   0x55555555514e <main+5>:	mov    rbp,rsp
+
+=> 0x555555555151 <main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004
+
+   0x555555555158 <main+15>:	mov    rdi,rax
+
+   0x55555555515b <main+18>:	call   0x555555555050 <puts@plt>
+
+   0x555555555160 <main+23>:	nop
+
+   0x555555555161 <main+24>:	pop    rbp
+
+[------------------------------------stack-------------------------------------]
+
+0000| 0x7fffffffdef0 --> 0x1 
+
+0008| 0x7fffffffdef8 --> 0x7ffff7dabd90 (<__libc_start_call_main+128>:	mov    edi,eax)
+
+0016| 0x7fffffffdf00 --> 0x0 
+
+0024| 0x7fffffffdf08 --> 0x555555555149 (<main>:	endbr64)
+
+0032| 0x7fffffffdf10 --> 0x100000000 
+
+0040| 0x7fffffffdf18 --> 0x7fffffffe008 --> 0x7fffffffe350 ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+0048| 0x7fffffffdf20 --> 0x0 
+
+0056| 0x7fffffffdf28 --> 0x987dbd095586cc0c 
+
+[------------------------------------------------------------------------------]
+
+Legend: code, data, rodata, value
+
+
+
+Breakpoint 1, 0x0000555555555151 in main ()
+
+gdb-peda$ r 2
+
+Starting program: /home/cristi/Desktop/SO/Lab1/fileExe 2
+
+[Thread debugging using libthread_db enabled]
+
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+
+
+[----------------------------------registers-----------------------------------]
+
+RAX: 0x555555555149 (<main>:	endbr64)
+
+RBX: 0x0 
+
+RCX: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+RDX: 0x7fffffffe010 --> 0x7fffffffe375 ("SHELL=/bin/bash")
+
+RSI: 0x7fffffffdff8 --> 0x7fffffffe34e ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+RDI: 0x2 
+
+RBP: 0x7fffffffdee0 --> 0x2 
+
+RSP: 0x7fffffffdee0 --> 0x2 
+
+RIP: 0x555555555151 (<main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004)
+
+R8 : 0x7ffff7f9cf10 --> 0x4 
+
+R9 : 0x7ffff7fc9040 (<_dl_fini>:	endbr64)
+
+R10: 0x7ffff7fc3908 --> 0xd00120000000e 
+
+R11: 0x7ffff7fde680 (<_dl_audit_preinit>:	endbr64)
+
+R12: 0x7fffffffdff8 --> 0x7fffffffe34e ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+R13: 0x555555555149 (<main>:	endbr64)
+
+R14: 0x555555557dc0 --> 0x555555555100 (<__do_global_dtors_aux>:	endbr64)
+
+R15: 0x7ffff7ffd040 --> 0x7ffff7ffe2e0 --> 0x555555554000 --> 0x10102464c457f
+
+EFLAGS: 0x246 (carry PARITY adjust ZERO sign trap INTERRUPT direction overflow)
+
+[-------------------------------------code-------------------------------------]
+
+   0x555555555149 <main>:	endbr64 
+
+   0x55555555514d <main+4>:	push   rbp
+
+   0x55555555514e <main+5>:	mov    rbp,rsp
+
+=> 0x555555555151 <main+8>:	lea    rax,[rip+0xeac]        # 0x555555556004
+
+   0x555555555158 <main+15>:	mov    rdi,rax
+
+   0x55555555515b <main+18>:	call   0x555555555050 <puts@plt>
+
+   0x555555555160 <main+23>:	nop
+
+   0x555555555161 <main+24>:	pop    rbp
+
+[------------------------------------stack-------------------------------------]
+
+0000| 0x7fffffffdee0 --> 0x2 
+
+0008| 0x7fffffffdee8 --> 0x7ffff7dabd90 (<__libc_start_call_main+128>:	mov    edi,eax)
+
+0016| 0x7fffffffdef0 --> 0x0 
+
+0024| 0x7fffffffdef8 --> 0x555555555149 (<main>:	endbr64)
+
+0032| 0x7fffffffdf00 --> 0x200000000 
+
+0040| 0x7fffffffdf08 --> 0x7fffffffdff8 --> 0x7fffffffe34e ("/home/cristi/Desktop/SO/Lab1/fileExe")
+
+0048| 0x7fffffffdf10 --> 0x0 
+
+0056| 0x7fffffffdf18 --> 0x63dc751e540756b3 
+
+[------------------------------------------------------------------------------]
+
+Legend: code, data, rodata, value
+
+
+
+Breakpoint 1, 0x0000555555555151 in main ()
+
