@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Formular pentru intrarea în Sistemul Solar</title>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="style.css" type="text/css">
+      <script type="text/javascript" src="form.js"></script>
+   </head>
+   <body>
+     <h3>FORMULAR PENTRU INTRAREA ÎN SISTEMUL SOLAR</h3>
+      
+     <div id="container"> 
+       <form action=C:/Users/Paula/Desktop/anul1/sem2/tehnici_web/lab9/form.html method="post">
+        <fieldset for="date personale">
+            <legend>Date personale</legend>
+            <ul>
+                <li>
+                    <label for="nume">Nume complet : </label>
+                    <input type="text" id="nume" name="Nume complet" pattern="[a-z]{3,}" required=""/>
+                </li>
+                <li>
+                    <label for="id">ID unic : </label>
+                    <input type="text" id="id" name="id unic" pattern="[A-Z]{2}[0-9]{8}" required=""/>
+                </li>
+                <li>
+                    <label for="rasa">Rasa : </label>
+                    <select id="rasa" name="rasa">
+                        <option selected>--Please choose an option--</option>
+                        <option>Autobot</option>
+                        <option>Daimons</option>
+                        <option>Deep Ones</option>
+                        <option>Experiment</option>
+                        <option>Hutt</option>
+                        <option>Vogon</option>
+                        <option>Wookie</option>
+                        <option>Zerg</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="data">Data nasterii : </label>
+                    <input type="date" id="data" name="data" required="" min="1800-1-1" max="2023-5-7">
+                </li>
+                <li>
+                    <label for="credit">Credit social : </label>
+                    <input type="range" id="credit" name="credit" min="0" max="2000" step="50" required=""/>
+                </li>
+                <li>
+                    <label for="foto">Fotografie : </label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                </li>
+            </ul>
+        </fieldset>
+        <fieldset for="contact">
+            <legend>Contact</legend>
+            <ul>
+                <li>
+                    <label for="galaxie">Galaxie de provenienta : </label>
+                    <input type="text" id="galaxie" name="galaxie" required="" />
+                </li>
+                <li>
+                    <label for="planeta">Planeta natala : </label>
+                    <input type="text" id="planeta" name="planeta" required=""/>
+                </li>
+                <li>
+                    <label for="adr">Adresa completa : </label>
+                    <textarea id="adr" name="adr" rows="10" cols="40"required=""  resize="none" ></textarea>
+                </li>
+                <li>
+                    <label for="email">Adresa de email : </label>
+                    <input type="email" id="email" name="email" required="" autocomplete="nume"/>
+                </li>
+                <li>
+                    <label for="tel">Telefon : </label>
+                    <input type="text" id="tel" name="tel" pattern="[0]{1}[0-9]{9}" required="" autocomplete="+04" />
+                </li>
+                <li>
+                    <label for="url">Web URL : </label>
+                    <input type="url" id="url" name="url"  required=""/>
+                </li>
+                
+
+                
+            </ul>
+        </fieldset>
+        <fieldset for="semnalmente fizice">
+            <legend>Semnalmente fizice</legend>
+            <ul>
+                <li>
+                    <label for="inaltime">Inaltime (10-300cm) : </label>
+                    <input type="number" id="inaltime" name="inaltime" min="10" max="300" required="" />
+                </li>
+                <li>
+                    <label for="greutate">Greutate (1-500kg) : </label>
+                    <input type="number" id="greutate" name="greutate" min="1" max="500" required="" />
+                </li>
+                <li>
+                    <label for="membre">Nr. membre : </label>
+                    <input type="number" id="membre" name="membre" min="0" max="500" />
+                </li>
+                <li>
+                    <label for="ochi">Nr. ochi : </label>
+                    <input type="number" id="ochi" name="ochi" min="0" max="500" required="" />
+                </li>
+                <li>
+                    <label for="culoare">Culoare : </label>
+                    <input type="color" id="culoare" name="culoare" />
+                </li>
+                
+            </ul>
+        </fieldset>
+        <fieldset for="vizita">
+            <legend>Vizita</legend>
+            <ul>
+                <li>
+                    <label for="sosire">Data sosire : </label>
+                    <input type="date" id="sosire" name="sosire" required="" min="2023-5-7" max="2033-5-8"/>
+                </li>
+                <li>
+                    <label for="timp">Timp estimat sosire : </label>
+                    <input type="time" id="timp" name="timp" required=""/>
+                </li>
+                <li>
+                    <label for="sedere">Sedere : </label>
+                    <input type="radio" id="sedere" name="sedere" checked=""/>
+                    Temporara
+                    <input type="radio" id="sedere2" name="sedere" />
+                    Permanenta
+                </li>
+                <li>
+                    <label for="scop">Scopul vizitei : </label>
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="scop" name="scop" />
+                            Afaceri
+                        </li>
+                        <li>
+                            <input type="checkbox" id="scop2" name="scop" />
+                            Turism
+                        </li>
+                        <li>
+                            <input type="checkbox" id="scop3" name="scop" />
+                            Invazie
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <label for="com">Comentarii : </label>
+                    <textarea id="com" name="com" rows="10" cols="50" placeholder="alalla"></textarea>
+                </li>
+                
+            </ul>
+        </fieldset>
+        <div id="submit">
+           <!--<label for="sub"></label>
+            <input type="submit" id="sub" name="sub" value="Send Request">-->
+            <button id="sub">Submit</button>
+        </div>
+       </form>
+     </div>
+   </body>
+   <popUp id="popUp">
+    <p>Ai castigat!</p>
+    <button id="close">close</button>
+   </popUp>
+</html>
+
+
+

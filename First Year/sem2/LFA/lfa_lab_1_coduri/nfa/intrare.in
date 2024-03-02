@@ -1,0 +1,47 @@
+4
+1 2 3 4
+9
+1 1 a
+1 1 b
+1 2 a
+2 1 b
+2 3 a
+3 1 b
+3 4 a
+4 4 a
+4 4 b
+1
+1
+4
+5
+aaa
+aabc
+ab
+ac
+abaaaaaaaaaa
+
+
+
+
+
+0 1 2 3
+8
+0 1 a
+0 2 b
+1 1 a
+1 1 b
+2 3 a
+2 1 b
+3 2 a
+3 1 b
+0
+1
+2
+6
+baaaa
+baaa
+aba
+bbaaaa
+baaaaaaaa
+b
+

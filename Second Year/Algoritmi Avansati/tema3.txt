@@ -1,0 +1,17 @@
+Flux:
+harta: https://www.infoarena.ro/job_detail/3188877
+negot: https://www.infoarena.ro/job_detail/3188626
+ghizi: https://www.infoarena.ro/job_detail/3188543
+
+Cuplaj:
+senat: https://www.infoarena.ro/job_detail/3189148
+paznici: https://www.infoarena.ro/job_detail/3189999?action=view-source
+no-prime-sum: https://csacademy.com/submission/4724996
+
+Eulerian:
+https://leetcode.com/problems/reconstruct-itinerary/submissions/1136983372/
+https://leetcode.com/problems/valid-arrangement-of-pairs/submissions/1137005421/
+
+Hamiltonian:
+https://leetcode.com/submissions/detail/1136945004/
+https://www.infoarena.ro/job_detail/3190760

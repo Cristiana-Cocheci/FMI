@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1697473001 source:c:\users\paula\desktop\anul2\sem1\af\cb_src\sortare_topologica\main.cpp
+	<iostream>
+	<bits/stdc++.h>
+

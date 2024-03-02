@@ -1,0 +1,13 @@
+CONSTRUCTORI DE COPIERE
+
+-void f(haina h) transmite valoare
+-cls2(cls& ob): ob_lob{}  liste de initializare
+-cls f(); intoarce prin vid
+cls ob2(ob1); ob3=on2 la declarare de obiect
+
+
+
+OPERATOR =
+
+cand facem atribuiri:
+    ob1=ob2; // obiectul exista deja

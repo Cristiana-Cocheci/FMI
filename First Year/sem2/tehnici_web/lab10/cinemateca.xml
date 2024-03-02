@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <cinemateca>
+        <film>
+            <titlu lang="en">Schindler's List</titlu>
+            <gen>Biography, Drama, History</gen>
+            <regizor>Steven Spielberg</regizor>
+            <an>1993</an>
+            <scenarist>Thomas Keneally, Steven Zailian</scenarist>
+            <producatori>Branko Lustig, Gerald R. Molen</producatori>
+            <actori>Liam Neeson</actori>
+            <scor>9.0/10</scor>
+        </film>
+        <film>
+            <titlu lang="en">The Hobbit: An Unexpected Journey</titlu>
+            <gen>Advnture, Fantasy</gen>
+            <regizor>Peter Jackson</regizor>
+            <an>2012</an>
+            <scenarist>Fran Walsh, Philippa Boyens, Peter Jackson</scenarist>
+            <producatori>Carolynne Cunningham, Peter Jackson, Fran Walsh, Zane Weiner</producatori>
+            <actori>Martin Freeman, Ian McKellen</actori>
+            <scor>7.8/10</scor>
+        </film>
+    </cinemateca>
+</root>

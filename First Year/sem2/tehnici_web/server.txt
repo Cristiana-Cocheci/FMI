@@ -1,0 +1,26 @@
+cd desktop
+cd anul1
+cd sem2
+cd tehnici_web
+cd EXAMEN
+py -3 -m http.server
+
+http://localhost:8000/
+
+ctr-shit-r
+
+bool compare(){
+return a<b;
+}
+
+std::sort(v.begin(), v.end(), compare());
+
+C:\Users\Paula\Desktop\anul 1_proiecte_poo\sem2\po\COLOCVIU1
+C:\Users\Paula\Desktop\anul 1_proiecte_poo\sem2\po\COLOCVIU3
+C:\Users\Paula\Desktop\anul 1_proiecte_poo\sem2\po\COLOCVIU2
+
+
+
+
+folosirea a cel puțin unei metode din clasele:  String
+folosirea metodelor getComputedStyle

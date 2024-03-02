@@ -1,0 +1,76 @@
+
+.header{
+    width: auto;
+    padding: 1em;
+    text-align: center;
+    background: crimson;
+    border-top: 10px solid lightcoral;
+}
+h1
+{
+    color: cornsilk;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: xx-large;
+}
+
+h3
+{
+    color:brown;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align:left;
+}
+
+a
+{
+    color: goldenrod;
+}
+a:hover
+{
+    font-size: larger;
+    /*color: cornflowerblue;*/
+    font-family: fantasy;
+}
+a.meniu:link
+{
+    color: cornsilk;
+    decoration:none;
+}
+/*a.meniu:visited
+{
+    color: antiquewhite;
+    decoration:none;
+}*/
+a.meniu:hover
+{
+    font-size: larger;
+    color: cornflowerblue;
+    font-family: fantasy;
+}
+.meniu
+{
+    
+    text-align: center;
+    padding: 2%;
+    background-color: darkred;
+}
+.pagina_principala
+{
+    background-color: cornsilk;
+    text-align: left;
+    
+    border: 8px solid lightcoral;
+}
+div.pagina_principala p::first-letter
+{
+    font-size: larger;
+    color: darkred;
+    font-family: fantasy;
+}
+.footer
+{
+    text-align: center;
+    color: cornsilk;
+    padding: 2%;
+    background-color: firebrick;
+    border: 10px solid lightcoral;
+}

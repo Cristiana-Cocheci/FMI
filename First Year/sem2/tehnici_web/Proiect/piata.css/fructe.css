@@ -1,0 +1,300 @@
+body{
+    
+    background-image:url("https://wallpaper.dog/large/17027482.jpg");
+	  background-size: cover;
+	  background-position: center;
+	  background-repeat:round;
+	  backdrop-filter:blur(0.33em);
+	  background-size: contain;
+
+    color: #7a9cdc;
+    margin:5%;
+}
+h4
+{
+  font-size: 2em;
+}
+p{
+  font-size: 1em;
+}
+#cedumnezeu
+{
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+    column-gap: 0.1em;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:#a3bbe6;
+    font-weight:bold;
+    font-size:1.3em;
+}
+#cedumnezeu a
+{
+    margin-top: 1em;
+    text-decoration: none;
+    color: #a3bbe6;
+    display: flex;
+    flex-wrap: wrap;
+    background-color:#2a5dbc;
+    width: 7em;
+    height: 7em;
+    border-radius: 100%;
+    justify-content:center;
+    align-items:center;   
+}
+#cedumnezeu a:hover
+{
+    text-decoration:underline;
+    font-style: oblique;
+    background-color:#4772c4;
+    color:#a3bbe6;
+}
+#cedumnezeu #titlu:hover
+{
+    font-style: oblique;
+    background-color:#4772c4;
+    color:#a3bbe6;
+}
+
+
+header #titlu{
+    margin-top: 2em;
+    order: -1;
+    display: flex;
+    background-color:#2a5dbc;
+    width: 11em;
+    height: 11em;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.meniu 
+{
+    position:relative;
+    background-color: #a3bbe6;
+    width: 3em;
+    height: 3em;
+    border-radius: 5em;
+    margin: auto;
+    margin-top: 0em;
+    margin-bottom: 5em;
+    cursor:pointer;
+    border: 1em solid #2a5dbc;
+}
+
+.meniu:after{
+    content: "";
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    width: 1em;
+    height: 0.2em;
+    border-top: 0.6em double #2a5dbc;
+    border-bottom: 0.2em solid  #2a5dbc;
+}
+.meniu:hover
+{
+    border-color: #5e84ca;
+}
+.meniu ul {
+    list-style: none;
+    padding: 0;
+  }
+.meniu li {
+    width: 5em;
+    height: 1.4em;
+    padding: 0.2em;
+    margin-top: 0.2em;
+    text-align: center;
+    border-radius: 0.5em;
+    transition: all 1s;
+    background:#a3bbe6;
+    opacity: 0;
+    z-index: -1;
+  }
+.meniu:hover li {
+    opacity: 1;
+  }
+.meniu a
+{
+    color:#4772c4;
+    text-decoration: none;
+}
+.meniu ul {
+    transform: rotate(180deg) translateY(-2em);
+    transition: 1s all;
+  }
+.meniu:hover ul {
+    transform: rotate(0deg) translateY(-1em);
+  }
+#mere_meniu:hover{
+    background:#bd7f7f;
+  }
+#mere_meniu:hover>a{
+    color:#e1c5c5;
+  }
+#struguri_meniu:hover{
+    background:#7f88bd;
+  }
+#struguri_meniu:hover > a{
+   color: #a3bbe6;
+  }
+#pepeni_meniu:hover{
+    background:#bdb07f;
+  }
+  #pepeni_meniu:hover>a{
+    color:#faefca;
+  }
+.meniu li:nth-of-type(1) {
+    transform: rotate(-45deg);
+    position: absolute;
+    left: 2em;
+    top: -3em;
+  }
+.meniu li:nth-of-type(2) {
+    position: absolute;
+    left: 3.4em;
+    top: 0.3em;
+  }
+.meniu li:nth-of-type(3) {
+    transform: rotate(45deg);
+    position: absolute;
+    left: 2em;
+    top: 3.7em;
+  }
+
+.titlu007
+{
+    display:flex;
+    justify-content: center;
+    padding:2%;
+    
+    font-size: 3.5em;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; ;
+}
+
+#Mere h3
+{
+  background-image:url("https://ychef.files.bbci.co.uk/976x549/p07v2wjn.jpg");
+	background-position: center;
+	background-repeat:unset;
+	background-size:cover;
+    /*background-color: #bd7f7f;
+    border-color: #be6060;
+    border-width: 1em;
+    border-style:groove;*/
+    color:#e1c5c5;
+    margin: 0.2em;
+}
+#Mere h3:hover{
+  color:white;
+}
+h5
+{
+  margin-left:0.2em;
+    display: flex;
+    justify-content:flex-start;
+    color:#7a9cdc;
+    font-size:1em;
+    padding: 1em;
+    width:fit-content;
+}
+p
+{
+    display: grid;
+    margin-inline: 1em;
+    
+}
+#Struguri h3
+{
+  background-image:url("https://as1.ftcdn.net/v2/jpg/03/85/37/04/500_F_385370461_LWzOQ6hDGd0Cg5s0Hmq5vHLbXybVr8M3.jpg");
+	background-position: center;
+	background-repeat:unset;
+	background-size:cover;
+    /*background-color:#7f88bd;
+    border-color:#4556b9;
+    border-width: 1em;
+    border-style:groove;*/
+    color:#cad0f3;
+    margin: 0.2em;
+    
+}
+#Struguri h3:hover{
+  color:white;
+}
+
+#Pepeni h3
+{
+  background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTzk5PHg0L6WHCvAFVMM0_2g98yEyYVugkwg&usqp=CAU");
+	background-position: center;
+	background-repeat:unset;
+	background-size:cover;
+    /*background-color:#bdb07f;
+    border-color:#b29c4d;
+    border-width: 1em;
+    border-style:groove;*/
+    color:#faefca;
+    margin: 0.2em;
+}
+#Pepeni h3:hover{
+  color:white;
+}
+
+ul
+{
+  list-style:lower-greek;
+}
+img
+{
+  width: 20em;
+  height: 20em;
+  object-fit:scale-down;
+}
+.poze 
+{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 2%;
+}
+.poze li{
+  font-size: 1em;
+}
+
+
+#titlu:hover{
+  animation-name: roata_titlu;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 2;
+  
+  animation-direction: alternate;
+}
+#titluaux a:hover{
+  animation-name: roata_titlu;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-delay: 1s;
+  animation-direction: alternate;
+}
+@keyframes roata_titlu{
+  0%{transform: rotate(0deg) scale(1.05)}
+  50%{transform: rotate(180deg) scale(1.1)}
+  51%{transform:rotate(179deg) scale(1.2)}
+  99%{transform: rotate(1deg) scale(1.1)}
+  100%{transform: rotate(0deg) scale(1.05)}
+}
+
+
+@media screen and (min-width:2000px) {
+	#titlu{
+		font-size:3em;
+	}
+  #titluaux{
+    font-size:3em;
+  }
+  p{
+    font-size:3.5em;
+  }
+}

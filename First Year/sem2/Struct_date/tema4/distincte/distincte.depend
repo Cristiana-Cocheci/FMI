@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1684603486 source:c:\users\paula\desktop\anul1\sem2\struct_date\tema4\distincte\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+

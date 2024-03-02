@@ -1,0 +1,14 @@
+body{  
+    display:grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+h1{
+    color: #f8f8f9;
+    background-color: darkred;
+    padding: 5%;
+    text-align: center;
+    grid-area: 2/2/3/3;
+    font-size: 7em;
+   /* margin:auto;*/
+}

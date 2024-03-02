@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <title>Piața Crângași</title>
+        <meta charset="utf-8">
+        <meta name="autor" content="Cristiiiii">
+        <link rel="stylesheet" href="C:/Users/Paula/Desktop/anul1/sem2/tehnici_web/Proiect/piata.css/formular.css" type="text/css">
+        <script type="text/javascript" src="C:/Users/Paula/Desktop/anul1/sem2/tehnici_web/Proiect/piata.js/formular.js"></script>
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    </head>
+    <body id="body">
+        <header>
+            <h3><a href="C:/Users/Paula/Desktop/anul1/sem2/tehnici_web/Proiect/piata.html/intrare.html">Piața Crângași</a></h3>
+            <h5>Formular de castigator!</h5>
+        </header>
+
+        <form action="C:\Users\Paula\Desktop\anul1\sem2\tehnici_web\Proiect\piata.html\formular_output.html" method="post">
+        <fieldset for="Date personale">
+            <legend>Date personale</legend>
+            <ul>
+                <li>
+                    <label for="nume">Nume : </label>
+                    <input type="text" id="nume" name="Nume complet" pattern="[A-Z]{1}[a-z]{2,}" required=""/>
+                </li>
+                <li>
+                    <label for="nume2">Prenume : </label>
+                    <input type="text" id="nume2" name="Nume complet" pattern="[A-Z]{1}[a-z]{2,}" required=""/>
+                </li>
+                <li>
+                    <label for="data">Data nasterii : </label>
+                    <input type="date" id="data" name="data" required="" min="1800-1-1" max="2023-5-7">
+                </li>
+                <li>
+                    <label for="email">Adresa de email : </label>
+                    <input type="email" id="email" name="email" required="" autocomplete="nume"/>
+                </li>
+                <li>
+                    <label for="tel">Telefon : </label>
+                    <input type="text" id="tel" name="tel" pattern="[0]{1}[0-9]{9}" required="" autocomplete="+04" />
+                </li>
+                <li>
+                    <label for="apr">Ti-a placut? </label>
+                    <br>
+                    <input type="radio" id="apr" name="apr" checked=""/>
+                    Normal :D
+                    <br>
+                    <input type="radio" id="apr2" name="apr" />
+                    Nu chiar...
+                </li>
+                
+            </ul>
+            <div id="submit">
+                <label for="sub"></label>
+                <input type="submit" id="sub" name="sub" value="Submit">
+             </div>
+            
+        </fieldset>
+    </form>
+    <p id="multumim"></p>
+    <div id="dataAzi"></div>
+        <div id="dataExp">
+                adfwregea
+        </div>
+    </body>
+    
+</html>

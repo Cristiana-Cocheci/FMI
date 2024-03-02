@@ -1,0 +1,44 @@
+body {
+    background-color: black;
+  }
+  
+  #container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+  }
+  
+  .crop {
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    /*clip-path: circle(50%); */
+  }
+  
+  .crop img {
+    margin: -30px 0 0 -20px;
+    transform: scale(1);
+  }
+.animation{
+    animation-name: picture;
+    animation-duration: 1s;
+}
+#timer{
+    background-color: aliceblue;
+    padding: 10px;
+    font-size: 50px;
+}
+
+  @keyframes picture
+{
+    0% {filter: hue-rotate(90deg);}
+    50% {filter: hue-rotate(150deg);}
+    100% {filter: hue-rotate(-90deg);}
+}  
+  #galerie{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  

@@ -1,0 +1,22 @@
+#dataExp{
+    background-color:aquamarine;
+    color: darkblue;
+}
+ul{
+    list-style: none;
+    padding: 3%;
+}
+body{
+    background-color: darkblue;
+    color:azure;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+a{
+    text-decoration: none;
+    color: aliceblue;
+}
+li{
+    padding: 3%;;
+}

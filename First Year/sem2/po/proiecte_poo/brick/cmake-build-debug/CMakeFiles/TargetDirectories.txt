@@ -1,0 +1,3 @@
+C:/Users/Paula/Desktop/anul 1/sem2/po/brick/cmake-build-debug/CMakeFiles/brick.dir
+C:/Users/Paula/Desktop/anul 1/sem2/po/brick/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Paula/Desktop/anul 1/sem2/po/brick/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,15 @@
+1.sub
+https://infoarena.ro/job_detail/3120594?action=view-source
+
+2.prefix free subset
+https://csacademy.com/submission/4022773/
+
+3.e-karuta
+https://atcoder.jp/contests/abc287/submissions/40390086
+
+4 a picat code forces-ul..
+dar am surse de 100 la
+	706D
+	817E
+	714C
+iar la 456D am sursa care teoretic e corecta, dar n am apucat sa o incarc.

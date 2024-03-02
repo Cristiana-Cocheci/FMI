@@ -1,0 +1,69 @@
+/* box-sizing for including padding */
+html {
+    box-sizing: border-box;
+  }
+  
+  * {
+    box-sizing: inherit;
+  }
+  
+  *:before, *:after {
+      box-sizing: inherit;
+  }
+  
+  
+  body {
+    min-height: 100vh;
+    font-family: Fira Mono, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: #201B3C;
+  }
+  
+  ul{
+    list-style: none;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  li{
+    margin: 1em;
+    padding: 0.5em;
+  }
+  #format{
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  div {
+
+    margin: 12px;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  fieldset {
+    margin-bottom: 20px;
+  }  
+  
+  textarea {
+    resize: none;
+    margin-top: 10px;
+  }
+    
+
+  #popUp{
+    width: 15em;
+    height: 10em;
+    background-color: antiquewhite;
+    color:#201B3C;
+    position: fixed;
+    top:0px;
+    z-index: 10;
+    padding:auto;
+    visibility: hidden;
+  }

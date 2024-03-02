@@ -1,0 +1,55 @@
+body{
+  
+  background-color: rgb(36, 26, 13);
+}
+
+#container {
+  
+  display: grid; 
+  grid-template-columns: 500px 500px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  color: antiquewhite;
+}
+
+#info {
+  display: grid; 
+  grid-template-columns: 400px;
+  grid-template-rows: repeat(15, 400px);
+  align-items: center;
+}
+
+#gallery {
+  display: grid; 
+  grid-template-columns: 400px;
+  grid-template-rows: repeat(15, 400px);
+  align-items: center;
+}
+
+.albumPic{
+  display: grid;
+  grid-template-rows: 300px 50px;
+  margin: 20px;
+  padding: 10%;
+  
+}
+div{
+  display: flex;
+  align-items: center;
+}
+
+.albumPic p{
+  border-top: 2px solid wheat;
+  border-bottom: 5px solid wheat;
+  text-align: center;
+}
+
+img{
+  width: 400px;
+  height: 300px;
+  object-fit: contain;
+  margin: 10px;
+}
+
+
+

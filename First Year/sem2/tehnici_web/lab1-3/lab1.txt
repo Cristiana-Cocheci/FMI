@@ -1,0 +1,28 @@
+2.
+ultimul caracter din protocol
+al treilea caracter din domeniu
+al doilea caracter din Tld
+penultimul caracter din file name
+ultimul caracter al atributului din query.
+
+SNOWY
+
+4.
+roboti- allowed || status code 404
+HTTP2 - allowed
+HTTP compression -alowed
+
+5.
+
+n= 2*404 + 404/4 +1= 808 +102= 910
+
+6.
+tintin.mudhalla.net
+status code 200
+reason OK
+robots allowed
+response size 6.3 kB
+
+
+8.
+font- Consolas, monospace;

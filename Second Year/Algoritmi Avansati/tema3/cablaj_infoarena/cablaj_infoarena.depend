@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1699777708 source:c:\users\paula\desktop\anul2\sem1\af\tema2\cablaj_infoarena\main.cpp
+	<iostream>
+	<bits/stdc++.h>
+	<limits>
+
