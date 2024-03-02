@@ -1,0 +1,149 @@
+
+CREATE TABLE angajati_stc(
+    cod_angajat VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT nume_vid NOT NULL,
+    data_angajare DATE default sysdate,
+    salariu NUMBER(10) default 2500
+);
+
+
+CREATE TABLE joburi(
+    cod_job VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT numeJob_vid NOT NULL,
+    ore_pe_zi NUMBER(2)
+);
+
+CREATE TABLE obisnuit_stc(
+    cod_angajat VARCHAR2(25) primary key references angajati_stc(cod_angajat),
+    cod_job VARCHAR2(25),
+    constraint codJob_fk foreign key(cod_job) references joburi (cod_job)
+);
+
+CREATE TABLE sofer_stc(
+    cod_angajat VARCHAR2(25) primary key references angajati_stc(cod_angajat),
+    tip_permis VARCHAR2(25) constraint permis_conducere NOT NULL
+);
+
+ALTER TABLE angajati_stc
+ADD (cod_sef VARCHAR2(25) REFERENCES angajati_stc(cod_angajat));
+desc angajati_stc;
+
+ALTER TABLE sofer_stc
+MODIFY tip_permis default 'z-profesionist';
+
+CREATE TABLE departament_transport_stc(
+    tip_transport VARCHAR2(25) primary key,
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat)
+);
+ALTER TABLE departament_transport_stc
+ADD (nume_departament VARCHAR(25) NOT NULL);
+
+CREATE TABLE sectii_stc(
+    cod_sectie VARCHAR2(25) primary key,
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat),
+    tip_transport VARCHAR2(25) references departament_transport_stc(tip_transport)
+);
+ALTER TABLE sectii_stc
+ADD (nume_sectie VARCHAR(25));
+
+
+CREATE TABLE locatii_stc(
+    cod_locatie VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT numeLoc_vid UNIQUE,
+    adresa VARCHAR(25) UNIQUE,
+    cod_postal NUMBER(7)
+);
+
+CREATE TABLE filiale_stc(
+    cod_sectie VARCHAR2(25) references sectii_stc(cod_sectie),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie),
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat),
+    primary key (cod_sectie, cod_locatie)
+);
+ALTER TABLE angajati_stc
+ADD (cod_sectie VARCHAR2(25),
+    cod_locatie VARCHAR(25),
+    CONSTRAINT fkey_angajati foreign key (cod_sectie, cod_locatie)
+    REFERENCES filiale_stc(cod_sectie,cod_locatie));
+
+CREATE TABLE trasee_stc(
+    cod_traseu VARCHAR2(25) primary key,
+    capat1 VARCHAR(25),
+    capat2 VARCHAR(25),
+    lungime NUMBER(7),
+    cod_sectie VARCHAR2(25) references sectii_stc(cod_sectie)
+);
+
+CREATE TABLE depouri_stc(
+    cod_depou VARCHAR2(25) primary key,
+    nume_depou VARCHAR2(25),
+    capacitate NUMBER(5),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie)
+);
+
+CREATE TABLE statii_stc(
+    cod_statie VARCHAR2(25) primary key,
+    nume_statie VARCHAR2(25),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie)
+);
+
+CREATE TABLE statie_unica_stc(
+    cod_statie VARCHAR2(25) references statii_stc(cod_statie),
+    cod_traseu VARCHAR2(25) references trasee_stc(cod_traseu),
+    primary key (cod_statie, cod_traseu)
+);
+
+ALTER TABLE trasee_stc
+ADD CONSTRAINT fkey_capat1 FOREIGN KEY(capat1) REFERENCES statii_stc(cod_statie);
+ALTER TABLE trasee_stc
+ADD CONSTRAINT fkey_capat2 FOREIGN KEY(capat2) REFERENCES statii_stc(cod_statie);
+
+
+CREATE TABLE tipuri_vehicule_stc(
+    cod_tip_vehicul VARCHAR2(25) primary key,
+    nume VARCHAR2(25),
+    marca VARCHAR(25)
+);
+
+CREATE TABLE caracteristici_stc(
+    cod_caract NUMBER(3) primary key,
+    nr_locuri NUMBER(3),
+    nr_roti NUMBER(2),
+    combustibil NUMBER(3),
+    seria VARCHAR2(10),
+    model VARCHAR2(10),
+    an DATE default sysdate
+);
+ALTER TABLE caracteristici_stc
+DROP COLUMN combustibil;
+
+ALTER TABLE caracteristici_stc
+ADD combustibil VARCHAR(25) default 'benzina';
+
+ALTER TABLE caracteristici_stc
+MODIFY model VARCHAR(25);
+
+CREATE TABLE caracteristica_tip(
+    cod_caract NUMBER(3) references caracteristici_stc(cod_caract),
+    cod_tip_vehicul VARCHAR2(25) references tipuri_vehicule_stc(cod_tip_vehicul),
+    data_start DATE,
+    data_expirare DATE,
+    primary key (cod_caract, cod_tip_vehicul, data_start)
+);
+
+CREATE TABLE vehicule_stc(
+    nr_inmatriculare VARCHAR2(10) primary key,
+    cod_tip_vehicul VARCHAR2(25) references tipuri_vehicule_stc(cod_tip_vehicul)
+);
+
+ALTER TABLE vehicule_stc
+ADD (cod_depou VARCHAR2(25) REFERENCES depouri_stc(cod_depou));
+desc vehicule_stc;
+
+
+CREATE TABLE vehicul_traseu_sofer(
+    cod_angajat VARCHAR2(25) references sofer_stc(cod_angajat),
+    nr_inmatriculare VARCHAR2(10) references vehicule_stc(nr_inmatriculare),
+    cod_traseu VARCHAR2(25) references trasee_stc(cod_traseu),
+    primary key (nr_inmatriculare, cod_traseu, cod_angajat)
+);

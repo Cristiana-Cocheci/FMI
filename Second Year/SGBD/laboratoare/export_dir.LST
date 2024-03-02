@@ -1,0 +1,54 @@
+
+'DROPTABLE'||TABLE_NAME||';'                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------
+DROP TABLE ANGAJATI_STC;
+DROP TABLE JOBURI;
+DROP TABLE OBISNUIT_STC;
+DROP TABLE SOFER_STC;
+DROP TABLE DEPARTAMENT_TRANSPORT_STC;
+DROP TABLE SECTII_STC;
+DROP TABLE LOCATII_STC;
+DROP TABLE FILIALE_STC;
+DROP TABLE TRASEE_STC;
+DROP TABLE DEPOURI_STC;
+DROP TABLE STATII_STC;
+
+'DROPTABLE'||TABLE_NAME||';'                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------
+DROP TABLE STATIE_UNICA_STC;
+DROP TABLE TIPURI_VEHICULE_STC;
+DROP TABLE CARACTERISTICI_STC;
+DROP TABLE CARACTERISTICA_TIP;
+DROP TABLE VEHICULE_STC;
+DROP TABLE VEHICUL_TRASEU_SOFER;
+DROP TABLE ORASE_SVI;
+DROP TABLE LOCATII_SVI;
+DROP TABLE FILIALE_SVI;
+DROP TABLE DETECTIVI_SVI;
+DROP TABLE CAZURI_SVI;
+
+'DROPTABLE'||TABLE_NAME||';'                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------
+DROP TABLE CAZURI_REZOLVATE_SVI;
+DROP TABLE VEHICULE_SVI;
+DROP TABLE MARTORI_SVI;
+DROP TABLE SUSPECTI_SVI;
+DROP TABLE VINOVATI_SVI;
+DROP TABLE A_INVESTIGAT_SVI;
+DROP TABLE A_COMIS_SVI;
+DROP TABLE ANCHETA_SVI;
+DROP TABLE SPORT;
+DROP TABLE CLADIRE;
+DROP TABLE TEREN;
+
+'DROPTABLE'||TABLE_NAME||';'                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------
+DROP TABLE VESTIAR;
+DROP TABLE ANTRENAMENT;
+DROP TABLE ELEV;
+DROP TABLE ANTRENOR;
+DROP TABLE PARTICIPA;
+DROP TABLE DEPARTMENT;
+
+39 rows selected. 
+

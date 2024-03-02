@@ -1,0 +1,1615 @@
+
+CREATE TABLE angajati_stc(
+    cod_angajat VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT nume_vid NOT NULL,
+    data_angajare DATE default sysdate,
+    salariu NUMBER(10) default 2500
+);
+
+
+CREATE TABLE joburi(
+    cod_job VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT numeJob_vid NOT NULL,
+    ore_pe_zi NUMBER(2)
+);
+
+CREATE TABLE obisnuit_stc(
+    cod_angajat VARCHAR2(25) primary key references angajati_stc(cod_angajat),
+    cod_job VARCHAR2(25),
+    constraint codJob_fk foreign key(cod_job) references joburi (cod_job)
+);
+
+CREATE TABLE sofer_stc(
+    cod_angajat VARCHAR2(25) primary key references angajati_stc(cod_angajat),
+    tip_permis VARCHAR2(25) constraint permis_conducere NOT NULL
+);
+
+ALTER TABLE angajati_stc
+ADD (cod_sef VARCHAR2(25) REFERENCES angajati_stc(cod_angajat));
+desc angajati_stc;
+
+ALTER TABLE sofer_stc
+MODIFY tip_permis default 'z-profesionist';
+
+CREATE TABLE departament_transport_stc(
+    tip_transport VARCHAR2(25) primary key,
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat)
+);
+ALTER TABLE departament_transport_stc
+ADD (nume_departament VARCHAR(25) NOT NULL);
+
+CREATE TABLE sectii_stc(
+    cod_sectie VARCHAR2(25) primary key,
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat),
+    tip_transport VARCHAR2(25) references departament_transport_stc(tip_transport)
+);
+ALTER TABLE sectii_stc
+ADD (nume_sectie VARCHAR(25));
+
+
+CREATE TABLE locatii_stc(
+    cod_locatie VARCHAR2(25) primary key,
+    nume VARCHAR(25) CONSTRAINT numeLoc_vid UNIQUE,
+    adresa VARCHAR(25) UNIQUE,
+    cod_postal NUMBER(7)
+);
+
+CREATE TABLE filiale_stc(
+    cod_sectie VARCHAR2(25) references sectii_stc(cod_sectie),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie),
+    responsabil VARCHAR2(25) references angajati_stc(cod_angajat),
+    primary key (cod_sectie, cod_locatie)
+);
+ALTER TABLE angajati_stc
+ADD (cod_sectie VARCHAR2(25),
+    cod_locatie VARCHAR(25),
+    CONSTRAINT fkey_angajati foreign key (cod_sectie, cod_locatie)
+    REFERENCES filiale_stc(cod_sectie,cod_locatie));
+
+CREATE TABLE trasee_stc(
+    cod_traseu VARCHAR2(25) primary key,
+    capat1 VARCHAR(25),
+    capat2 VARCHAR(25),
+    lungime NUMBER(7),
+    cod_sectie VARCHAR2(25) references sectii_stc(cod_sectie)
+);
+
+CREATE TABLE depouri_stc(
+    cod_depou VARCHAR2(25) primary key,
+    nume_depou VARCHAR2(25),
+    capacitate NUMBER(5),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie)
+);
+
+CREATE TABLE statii_stc(
+    cod_statie VARCHAR2(25) primary key,
+    nume_statie VARCHAR2(25),
+    cod_locatie VARCHAR2(25) references locatii_stc(cod_locatie)
+);
+
+CREATE TABLE statie_unica_stc(
+    cod_statie VARCHAR2(25) references statii_stc(cod_statie),
+    cod_traseu VARCHAR2(25) references trasee_stc(cod_traseu),
+    primary key (cod_statie, cod_traseu)
+);
+
+ALTER TABLE trasee_stc
+ADD CONSTRAINT fkey_capat1 FOREIGN KEY(capat1) REFERENCES statii_stc(cod_statie);
+ALTER TABLE trasee_stc
+ADD CONSTRAINT fkey_capat2 FOREIGN KEY(capat2) REFERENCES statii_stc(cod_statie);
+
+
+CREATE TABLE tipuri_vehicule_stc(
+    cod_tip_vehicul VARCHAR2(25) primary key,
+    nume VARCHAR2(25),
+    marca VARCHAR(25)
+);
+
+CREATE TABLE caracteristici_stc(
+    cod_caract NUMBER(3) primary key,
+    nr_locuri NUMBER(3),
+    nr_roti NUMBER(2),
+    combustibil NUMBER(3),
+    seria VARCHAR2(10),
+    model VARCHAR2(10),
+    an DATE default sysdate
+);
+ALTER TABLE caracteristici_stc
+DROP COLUMN combustibil;
+
+ALTER TABLE caracteristici_stc
+ADD combustibil VARCHAR(25) default 'benzina';
+
+ALTER TABLE caracteristici_stc
+MODIFY model VARCHAR(25);
+
+CREATE TABLE caracteristica_tip(
+    cod_caract NUMBER(3) references caracteristici_stc(cod_caract),
+    cod_tip_vehicul VARCHAR2(25) references tipuri_vehicule_stc(cod_tip_vehicul),
+    data_start DATE,
+    data_expirare DATE,
+    primary key (cod_caract, cod_tip_vehicul, data_start)
+);
+
+CREATE TABLE vehicule_stc(
+    nr_inmatriculare VARCHAR2(10) primary key,
+    cod_tip_vehicul VARCHAR2(25) references tipuri_vehicule_stc(cod_tip_vehicul)
+);
+
+ALTER TABLE vehicule_stc
+ADD (cod_depou VARCHAR2(25) REFERENCES depouri_stc(cod_depou));
+desc vehicule_stc;
+
+
+CREATE TABLE vehicul_traseu_sofer(
+    cod_angajat VARCHAR2(25) references sofer_stc(cod_angajat),
+    nr_inmatriculare VARCHAR2(10) references vehicule_stc(nr_inmatriculare),
+    cod_traseu VARCHAR2(25) references trasee_stc(cod_traseu),
+    primary key (nr_inmatriculare, cod_traseu, cod_angajat)
+);
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO joburi
+VALUES ('J0','Contabil',8);
+INSERT INTO joburi
+VALUES ('J1','Asistent_HR',6);
+INSERT INTO joburi
+VALUES ('J2','Programator',6);
+INSERT INTO joburi
+VALUES ('J3','Project_Manager',10);
+INSERT INTO joburi
+VALUES ('J4','Consultant',2);
+INSERT INTO joburi
+VALUES ('J5','Tehnician Securitate',5);
+INSERT INTO joburi
+VALUES ('J6','Mecanic auto',8);
+
+INSERT INTO departament_transport_stc (tip_transport, nume_departament)
+VALUES ('DT0','Terestru_auto');
+INSERT INTO departament_transport_stc (tip_transport, nume_departament)
+VALUES ('DT1','Tren');
+INSERT INTO departament_transport_stc (tip_transport, nume_departament)
+VALUES ('DT2','Subteran');
+INSERT INTO departament_transport_stc (tip_transport, nume_departament)
+VALUES ('DT3','Nautic');
+INSERT INTO departament_transport_stc (tip_transport, nume_departament)
+VALUES ('DT4','Aerian');
+commit;
+
+
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S0', 'DT0', 'autobuz');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S1', 'DT0', 'troleibuz');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S2', 'DT0', 'microbuz');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S3', 'DT1', 'tren');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S4', 'DT1', 'tramvai');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S5', 'DT2', 'metrou');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S6', 'DT2', 'metrou expres');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S7', 'DT3', 'vaporas');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S8', 'DT3', 'barca');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S9', 'DT3', 'gondola');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S10', 'DT3', 'hidrobicicleta');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S11', 'DT4', 'parapanta');
+INSERT INTO sectii_stc (cod_sectie, tip_transport, nume_sectie)
+VALUES ('S12', 'DT4', 'elicopter');
+
+INSERT INTO locatii_stc
+VALUES ('L0','Crangasi','Str. Ceahlaul, nr 3', '060371');
+INSERT INTO locatii_stc
+VALUES ('L1','Serban','Calea Serban Voda, nr 288', '040223');
+INSERT INTO locatii_stc
+VALUES ('L2','Manolescu','Str. Manolescu Grig, nr 2', '011234');
+INSERT INTO locatii_stc
+VALUES ('L3','Herastrau','Blv. Regele Mihai I', '015449');
+INSERT INTO locatii_stc
+VALUES ('L4','Vianu','Str. Arh. Ion Mincu', '018772');
+INSERT INTO locatii_stc
+VALUES ('L5','Gara de Nord','Blv. Dinicu Golescu', '060388');
+INSERT INTO locatii_stc
+VALUES ('L6','Dambovita','Splaiul Independentei', '025466');
+INSERT INTO locatii_stc
+VALUES ('L7','Aeroport Baneasa','Sos. Bucuresti-Ploiesti', '012211');
+INSERT INTO locatii_stc
+VALUES ('L8','Pantelimon','Str. Campului, nr 99', '039928');
+INSERT INTO locatii_stc
+VALUES ('L9','Aparatorii Patriei','Str. Dumitru Dumitru', '0552134');
+INSERT INTO locatii_stc
+VALUES ('L10','Parcul Sebastian','Calea 13 Septembrie, nr 4', '059912');
+
+
+INSERT INTO depouri_stc
+VALUES ('D0','Crangasi',302,'L0');
+INSERT INTO depouri_stc
+VALUES ('D1','Parcul Sebastian',700,'L10');
+INSERT INTO depouri_stc
+VALUES ('D2','Gara de nord',50,'L5');
+INSERT INTO depouri_stc
+VALUES ('D3','Herastrau',147,'L3');
+INSERT INTO depouri_stc
+VALUES ('D4','Aeroport Baneasa',45,'L7');
+commit;
+
+INSERT INTO statii_stc
+VALUES ('St0','Crangasi','L0');
+INSERT INTO statii_stc
+VALUES ('St1','Serban','L1');
+INSERT INTO statii_stc
+VALUES ('St2','Manolescu','L2');
+INSERT INTO statii_stc
+VALUES ('St3','Herastrau','L3');
+INSERT INTO statii_stc
+VALUES ('St4','Vianu','L4');
+INSERT INTO statii_stc
+VALUES ('St5','Gara de Nord','L5');
+INSERT INTO statii_stc
+VALUES ('St6','Dambovita','L6');
+INSERT INTO statii_stc
+VALUES ('St7','Aeroport Baneasa','L7');
+
+
+INSERT INTO trasee_stc
+VALUES ('T0','St0','St7', 13, 'S0');
+INSERT INTO trasee_stc
+VALUES ('T1','St5','St7', 10, 'S2');
+INSERT INTO trasee_stc
+VALUES ('T2','St4','St3', 4, 'S4');
+INSERT INTO trasee_stc
+VALUES ('T3','St3','St6', 15, 'S7');
+INSERT INTO trasee_stc
+VALUES ('T4','St1','St2', 25, 'S6');
+INSERT INTO trasee_stc
+VALUES ('T5','St1','St7', 20, 'S12');
+
+
+
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S0','L0');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S0','L1');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S1','L3');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S1','L5');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S1','L6');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S2','L8');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S2','L9');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S10','L10');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S10','L7');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S8','L4');
+INSERT INTO filiale_stc (cod_sectie, cod_locatie)
+VALUES ('S8','L8');
+commit;
+
+
+INSERT INTO statie_unica_stc
+VALUES ('St0','T1');
+INSERT INTO statie_unica_stc
+VALUES ('St0','T0');
+INSERT INTO statie_unica_stc
+VALUES ('St1','T0');
+INSERT INTO statie_unica_stc
+VALUES ('St1','T1');
+INSERT INTO statie_unica_stc
+VALUES ('St2','T4');
+INSERT INTO statie_unica_stc
+VALUES ('St2','T3');
+INSERT INTO statie_unica_stc
+VALUES ('St2','T5');
+INSERT INTO statie_unica_stc
+VALUES ('St3','T3');
+INSERT INTO statie_unica_stc
+VALUES ('St4','T3');
+INSERT INTO statie_unica_stc
+VALUES ('St5','T1');
+INSERT INTO statie_unica_stc
+VALUES ('St6','T0');
+
+commit;
+
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an)
+VALUES (100,40,4,'rx33','infinitybus',TO_DATE('17/dec/2015', 'DD/MON/YYYY'));
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an)
+VALUES (101,45,4,'rx34','infinitybus2',TO_DATE('17/dec/2023', 'DD/MON/YYYY'));
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an)
+VALUES (102,20,4,'qqq0','legendtrolley',TO_DATE('12/mar/2005', 'DD/MON/YYYY'));
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an, combustibil)
+VALUES (103,3,0,'5005','hydra',TO_DATE('1/jan/2010', 'DD/MON/YYYY'), 'fara');
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an, combustibil)
+VALUES (104,6,0,'po21','hydra',TO_DATE('17/aug/2008', 'DD/MON/YYYY'), 'fara');
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an,combustibil)
+VALUES (105,4,3,'aero','eagleland',TO_DATE('28/may/2020', 'DD/MON/YYYY'), 'diesel');
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an,combustibil)
+VALUES (106,50,16,'rr41','railmonster',TO_DATE('2/may/2001', 'DD/MON/YYYY'), 'electric');
+INSERT INTO caracteristici_stc (cod_caract, nr_locuri, nr_roti, seria, model, an,combustibil)
+VALUES (107,50,16,'rr4i1','railmonster',TO_DATE('2/may/2001', 'DD/MON/YYYY'), 'electric');
+
+
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV0','autobuz','bus2000');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV1','troleibuz','bus2000');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV2','tramvai','rail++');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV3','caiac','hidrofun');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV4','barca','hidrofun');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV5','elicopter','The Bold Eagle');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV6','tren','rail++');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV7','metrou','rail++');
+INSERT INTO tipuri_vehicule_stc
+VALUES('TV8','microbuz','bus2000');
+
+
+
+INSERT INTO caracteristica_tip
+VALUES (100,'TV0',TO_DATE('17/dec/2015', 'DD/MON/YYYY'),TO_DATE('16/dec/2023', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip (cod_caract, cod_tip_vehicul, data_start)
+VALUES (101,'TV0',TO_DATE('17/dec/2023', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip
+VALUES (107,'TV7',TO_DATE('2/may/2001', 'DD/MON/YYYY'),TO_DATE('2/may/2003', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip
+VALUES (106,'TV7',TO_DATE('3/may/2003', 'DD/MON/YYYY'),TO_DATE('1/may/2005', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip
+VALUES (107,'TV7',TO_DATE('2/may/2005', 'DD/MON/YYYY'),TO_DATE('2/may/2009', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (107,'TV6',TO_DATE('3/may/2001', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (102,'TV1',TO_DATE('12/mar/2005', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (107,'TV2',TO_DATE('3/may/2001', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (103,'TV3',TO_DATE('1/jan/2010', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (104,'TV4',TO_DATE('17/aug/2008', 'DD/MON/YYYY'));
+
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (105,'TV5',TO_DATE('28/may/2020', 'DD/MON/YYYY'));
+INSERT INTO caracteristica_tip(cod_caract, cod_tip_vehicul, data_start)
+VALUES (100,'TV8',TO_DATE('17/dec/2015', 'DD/MON/YYYY'));
+
+INSERT INTO vehicule_stc
+VALUES ('B-45-BUS','TV0','D0');
+INSERT INTO vehicule_stc
+VALUES ('B-46-BUS','TV0','D0');
+INSERT INTO vehicule_stc
+VALUES ('B-03-TRO','TV1','D0');
+INSERT INTO vehicule_stc
+VALUES ('B-04-TRO','TV1','D0');
+INSERT INTO vehicule_stc
+VALUES ('B-41-RAM','TV2','D1');
+INSERT INTO vehicule_stc
+VALUES ('B-11-RAM','TV2','D1');
+INSERT INTO vehicule_stc
+VALUES ('B-00-CAY','TV3','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-01-CAY','TV3','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-02-CAY','TV3','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-04-CAY','TV3','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-00-BAR','TV4','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-01-BAR','TV4','D3');
+INSERT INTO vehicule_stc
+VALUES ('B-0-HELL','TV5','D4');
+INSERT INTO vehicule_stc
+VALUES ('B-1-HELL','TV5','D4');
+INSERT INTO vehicule_stc
+VALUES ('B-3-HELL','TV5','D4');
+INSERT INTO vehicule_stc
+VALUES ('B-99-REN','TV6','D2');
+INSERT INTO vehicule_stc
+VALUES ('B-97-REN','TV6','D2');
+INSERT INTO vehicule_stc
+VALUES ('B-92-REN','TV6','D2');
+INSERT INTO vehicule_stc
+VALUES ('B-30-MTR','TV7','D2');
+INSERT INTO vehicule_stc
+VALUES ('B-31-MTR','TV7','D2');
+INSERT INTO vehicule_stc
+VALUES ('B-66-MIC','TV8','D0');
+COMMIT;
+
+desc angajati_stc;
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A0','Augustus',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S0');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A1','Bartolomeu',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S1');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A2','Cicero',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S2');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A3','Dionys',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S3');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A4','Elena',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S4');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A5','Faust',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S5');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A6','Gregorio',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S6');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A7','Heracle',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S7');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A8','Iulius',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S8');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A9','Juna',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S9');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A10','Klaus',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S10');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A11','Lucretia',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S11');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sectie)
+VALUES ('A12','Manolo',to_date('12/dec/1990','dd/mon/yyyy'), 10000,'S12');
+
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A13','Nero',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A0','S0');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A14','Ophelia',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A1','S1');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A15','Patrocle',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A2','S2');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A16','Quince',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A3','S3');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A17','Ruth',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A4','S4');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A18','Santos',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A5','S5');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A19','Tremaine',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A6','S6');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A20','Ulise',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A7','S7');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A21','Venetia',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A8','S8');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A22','Waldo',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A9','S9');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A23','Xenia',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A10','S10');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A24','Yuri',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A11','S11');
+INSERT INTO angajati_stc (cod_angajat,nume,data_angajare,salariu, cod_sef, cod_sectie)
+VALUES ('A25','Zenobia',to_date('12/dec/1995','dd/mon/yyyy'), 8000,'A12','S12');
+
+commit;
+
+UPDATE angajati_stc
+SET cod_sectie = 'S0', cod_locatie= 'L0'
+where cod_angajat='A0';
+UPDATE angajati_stc
+SET cod_sectie = 'S1', cod_locatie= 'L3'
+where cod_angajat='A1';
+UPDATE angajati_stc
+SET cod_sectie = 'S2', cod_locatie= 'L8'
+where cod_angajat='A2';
+UPDATE angajati_stc
+SET cod_sectie = 'S3'
+where cod_angajat='A3';
+UPDATE angajati_stc
+SET cod_sectie = 'S4'
+where cod_angajat='A4';
+UPDATE angajati_stc
+SET cod_sectie = 'S5'
+where cod_angajat='A5';
+UPDATE angajati_stc
+SET cod_sectie = 'S6'
+where cod_angajat='A6';
+UPDATE angajati_stc
+SET cod_sectie = 'S7'
+where cod_angajat='A7';
+UPDATE angajati_stc
+SET cod_sectie = 'S8', cod_locatie= 'L4'
+where cod_angajat='A8';
+UPDATE angajati_stc
+SET cod_sectie = 'S9'
+where cod_angajat='A9';
+UPDATE angajati_stc
+SET cod_sectie = 'S10', cod_locatie= 'L10'
+where cod_angajat='A10';
+UPDATE angajati_stc
+SET cod_sectie = 'S11'
+where cod_angajat='A11';
+UPDATE angajati_stc
+SET cod_sectie = 'S12'
+where cod_angajat='A12';
+UPDATE angajati_stc
+SET cod_sectie = 'S0', cod_locatie= 'L1'
+where cod_angajat='A13';
+UPDATE angajati_stc
+SET cod_sectie = 'S1', cod_locatie= 'L6'
+where cod_angajat='A14';
+UPDATE angajati_stc
+SET cod_sectie = 'S2', cod_locatie= 'L9'
+where cod_angajat='A15';
+UPDATE angajati_stc
+SET cod_sectie = 'S3'
+where cod_angajat='A16';
+UPDATE angajati_stc
+SET cod_sectie = 'S4'
+where cod_angajat='A17';
+UPDATE angajati_stc
+SET cod_sectie = 'S5'
+where cod_angajat='A18';
+UPDATE angajati_stc
+SET cod_sectie = 'S6'
+where cod_angajat='A19';
+UPDATE angajati_stc
+SET cod_sectie = 'S7'
+where cod_angajat='A20';
+UPDATE angajati_stc
+SET cod_sectie = 'S8', cod_locatie= 'L8'
+where cod_angajat='A21';
+UPDATE angajati_stc
+SET cod_sectie = 'S9'
+where cod_angajat='A22';
+UPDATE angajati_stc
+SET cod_sectie = 'S10', cod_locatie= 'L7'
+where cod_angajat='A23';
+UPDATE angajati_stc
+SET cod_sectie = 'S11'
+where cod_angajat='A24';
+UPDATE angajati_stc
+SET cod_sectie = 'S12'
+where cod_angajat='A25';
+UPDATE angajati_stc
+SET cod_sectie = 'S13'
+where cod_angajat='A26';
+commit;
+
+
+UPDATE sectii_stc
+SET responsabil='A0'
+where cod_sectie='S0';
+UPDATE sectii_stc
+SET responsabil='A1'
+where cod_sectie='S1';
+UPDATE sectii_stc
+SET responsabil='A2'
+where cod_sectie='S2';
+UPDATE sectii_stc
+SET responsabil='A3'
+where cod_sectie='S3';
+UPDATE sectii_stc
+SET responsabil='A4'
+where cod_sectie='S4';
+UPDATE sectii_stc
+SET responsabil='A5'
+where cod_sectie='S5';
+UPDATE sectii_stc
+SET responsabil='A6'
+where cod_sectie='S6';
+UPDATE sectii_stc
+SET responsabil='A7'
+where cod_sectie='S7';
+UPDATE sectii_stc
+SET responsabil='A8'
+where cod_sectie='S8';
+UPDATE sectii_stc
+SET responsabil='A9'
+where cod_sectie='S9';
+UPDATE sectii_stc
+SET responsabil='A10'
+where cod_sectie='S10';
+UPDATE sectii_stc
+SET responsabil='A11'
+where cod_sectie='S11';
+UPDATE sectii_stc
+SET responsabil='A12'
+where cod_sectie='S12';
+
+
+
+UPDATE departament_transport_stc
+SET responsabil='A0'
+WHERE tip_transport='DT0';
+UPDATE departament_transport_stc
+SET responsabil='A3'
+WHERE tip_transport='DT1';
+UPDATE departament_transport_stc
+SET responsabil='A6'
+WHERE tip_transport='DT2';
+UPDATE departament_transport_stc
+SET responsabil='A9'
+WHERE tip_transport='DT3';
+UPDATE departament_transport_stc
+SET responsabil='A12'
+WHERE tip_transport='DT4';
+
+commit;
+
+UPDATE angajati_stc a
+set cod_sef = (select d.responsabil
+                from departament_transport_stc d join sectii_stc s on(d.tip_transport=s.tip_transport)
+                where s.cod_sectie=a.cod_sectie and cod_angajat!=d.responsabil)
+where salariu>8000;
+
+UPDATE filiale_stc f
+set responsabil = (select responsabil
+                  from sectii_stc
+                  where cod_sectie= f.cod_sectie);
+commit;
+INSERT INTO obisnuit_stc
+VALUES ('A0','J3');
+INSERT INTO obisnuit_stc
+VALUES ('A1','J1');
+INSERT INTO obisnuit_stc
+VALUES ('A2','J2');
+INSERT INTO obisnuit_stc
+VALUES ('A3','J3');
+INSERT INTO obisnuit_stc
+VALUES ('A4','J1');
+INSERT INTO obisnuit_stc
+VALUES ('A5','J5');
+INSERT INTO obisnuit_stc
+VALUES ('A6','J3');
+INSERT INTO obisnuit_stc
+VALUES ('A7','J6');
+INSERT INTO obisnuit_stc
+VALUES ('A8','J1');
+INSERT INTO obisnuit_stc
+VALUES ('A9','J3');
+INSERT INTO obisnuit_stc
+VALUES ('A10','J4');
+INSERT INTO obisnuit_stc
+VALUES ('A11','J0');
+INSERT INTO obisnuit_stc
+VALUES ('A12','J3');
+
+
+INSERT INTO sofer_stc (cod_angajat)
+        SELECT cod_angajat 
+        from angajati_stc
+        WHERE salariu=8000
+;
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A13','B-45-BUS','T0');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A13','B-46-BUS','T0');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A14','B-04-TRO','T0');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A14','B-04-TRO','T5');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A15','B-66-MIC','T3');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A16','B-99-REN','T4');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A16','B-99-REN','T3');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A16','B-92-REN','T1');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A16','B-97-REN','T4');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A17','B-41-RAM','T0');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A18','B-30-MTR','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A19','B-31-MTR','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A19','B-30-MTR','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A20','B-00-BAR','T4');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A21','B-01-BAR','T4');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A22','B-00-CAY','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A23','B-00-CAY','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A23','B-04-CAY','T2');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A24','B-0-HELL','T5');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A25','B-1-HELL','T5');
+INSERT INTO vehicul_traseu_sofer
+VALUES ('A25','B-3-HELL','T3');
+
+commit;
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON
+/
+CREATE OR REPLACE FUNCTION exista_angajat(v_nume_ang angajati_stc.nume%TYPE) RETURN BOOLEAN 
+AS v_cnt NUMBER; 
+BEGIN
+    SELECT count(*) INTO v_cnt
+    FROM ANGAJATI_STC
+    WHERE upper(nume) = upper(v_nume_ang);
+    
+    IF v_cnt > 0 THEN RETURN TRUE;
+    ELSE RETURN FALSE;
+    END IF;
+END;
+/
+declare 
+v_a BOOLEAN;
+begin
+ v_a:=exista_angajat('Dionys');
+ DBMS_OUTPUT.PUT_LINE(sys.diutil.bool_to_int(v_a));
+end;
+/
+
+CREATE OR REPLACE PROCEDURE proiect_lungime_trasee
+        (v_nume_ang IN angajati_stc.nume%TYPE)
+AS
+    TYPE cursor2 IS REF CURSOR;
+    c2 cursor2;
+    CURSOR c1 (v_subordonati angajati_stc.cod_angajat%TYPE) IS
+            (select distinct s.cod_statie, nume_statie, s.cod_traseu
+            from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+                    join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+                    join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+                    join statii_stc st on (st.cod_statie = s.cod_statie)
+            where a.cod_angajat =v_subordonati);
+       
+
+    statie statie_unica_stc.cod_statie%TYPE;
+    nume_statie statii_stc.nume_statie%TYPE;
+    cod_traseu trasee_stc.cod_traseu%TYPE;
+    
+    subo angajati_stc.cod_angajat%TYPE;
+    cod_sef angajati_stc.cod_angajat%TYPE;
+    lungime_trasee NUMBER;
+    ok BOOLEAN;
+    exceptie_ang EXCEPTION;
+
+BEGIN
+    ok:=exista_angajat(v_nume_ang);
+    IF ok=FALSE then raise exceptie_ang; END IF;
+    
+    SELECT cod_angajat INTO cod_sef
+    FROM ANGAJATI_STC
+    WHERE upper(nume) = upper(v_nume_ang);
+
+    OPEN c2 FOR
+        'SELECT cod_angajat
+        FROM ANGAJATI_STC
+        WHERE cod_sef = :v_cod_sef'
+        USING cod_sef;
+    
+    LOOP
+		FETCH c2 INTO subo;
+		EXIT WHEN c2%NOTFOUND;
+		DBMS_OUTPUT.PUT_LINE('Angajatul: '|| subo);
+
+        OPEN c1(subo);
+        LOOP
+            FETCH c1 INTO statie, nume_statie, cod_traseu;
+            EXIT WHEN c1%NOTFOUND;
+            DBMS_OUTPUT.PUT_LINE('Statia: ' || statie ||' '||nume_statie|| ', din traseul: ' ||cod_traseu);
+        END LOOP;
+        IF c1%ROWCOUNT=0 THEN
+            DBMS_OUTPUT.PUT_LINE('Acest angajat nu conduce pe niciun traseu');
+        ELSE 
+            SELECT sum(lungime) INTO lungime_trasee
+            FROM trasee_stc WHERE cod_traseu IN
+            (
+                select distinct s.cod_traseu
+                from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+                        join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+                        join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+                        join statii_stc st on (st.cod_statie = s.cod_statie)
+                where a.cod_angajat =subo
+            );           
+            
+            DBMS_OUTPUT.PUT_LINE('Suma lungimilor traseelor parcurse de acest angajat este: ' || lungime_trasee);
+        END IF;
+        CLOSE c1;
+    END LOOP;
+    IF c2%ROWCOUNT=0 THEN
+        DBMS_OUTPUT.PUT_LINE('Nu am gasit niciun subordonat al lui' || v_nume_ang);
+    END IF;
+    CLOSE c2;
+    EXCEPTION
+        WHEN exceptie_ang THEN
+            DBMS_OUTPUT.PUT_LINE('Nu am gasit angajat cu numele ' || v_nume_ang);
+        WHEN too_many_rows THEN
+            DBMS_OUTPUT.PUT_LINE('Prea multi angajati cu numele ' || v_nume_ang);
+END;
+/
+DECLARE 
+    v_nume angajati_stc.nume%TYPE;
+    cod_sef angajati_stc.cod_angajat%TYPE;
+BEGIN
+    v_nume :='Dionys';
+    proiect_lungime_trasee(v_nume);
+END;
+/
+select distinct s.cod_statie 
+from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+        join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+        join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+where a.cod_angajat ='A4';/*in (select cod_angajat 
+                        from angajati_stc 
+                        where cod_sef = (select cod_angajat 
+                        from angajati_stc a
+                        where upper(nume)='DIONYS'));*/ --subordonati
+/
+select * from angajati_stc;
+select * from vehicul_traseu_sofer;
+insert into vehicul_traseu_sofer VALUES('A4','B-66-MIC','T3');
+select * from vehicule_stc;
+select * from trasee_stc;
+select * from sofer_stc;
+insert into sofer_stc VALUES('A4', 'permis_special');
+commit;
+/
+CREATE OR REPLACE PROCEDURE colectii_ex_proiect (v_numar NUMBER)
+AS
+--procedura afla un tablou_indexat al angajatilor cu cel putin 3 vehicule
+    TYPE record_nr_traseu IS RECORD 
+        (nr_inmatriculare vehicul_traseu_sofer.nr_inmatriculare%TYPE,
+        traseu vehicul_traseu_sofer.cod_traseu%TYPE);
+            
+    TYPE tablou_imbricat IS TABLE OF record_nr_traseu;
+    TYPE tablou_indexat IS TABLE OF tablou_imbricat 
+                        INDEX BY angajati_stc.cod_angajat%TYPE;
+    TYPE vector IS VARRAY(26) OF angajati_stc.cod_angajat%TYPE; --numar de angajati din baza de date
+    ang vector:=vector(26);
+    ang_vehicule_indx tablou_indexat;
+    recs tablou_imbricat;
+    angajat angajati_stc.cod_angajat%TYPE;
+    exceptie EXCEPTION;
+BEGIN
+    SELECT cod_angajat 
+    BULK COLLECT INTO ang
+    FROM angajati_stc;
+    
+    FOR i IN 1..ang.COUNT LOOP  
+        recs:= tablou_imbricat();
+        SELECT nr_inmatriculare, cod_traseu
+        BULK COLLECT INTO recs
+        FROM vehicul_traseu_sofer
+        WHERE cod_angajat = ang(i);
+        
+        IF recs.count >=v_numar THEN
+            ang_vehicule_indx(ang(i)) := recs;
+        END IF;
+
+    END LOOP;
+    
+    IF ang_vehicule_indx.COUNT = 0 THEN
+        raise exceptie;
+    END IF;
+    angajat:= ang_vehicule_indx.FIRST;
+    WHILE angajat != ang_vehicule_indx.LAST LOOP  
+        DBMS_OUTPUT.PUT_LINE('Cod Angajat: ' || angajat);
+        FOR j IN ang_vehicule_indx(angajat).FIRST .. ang_vehicule_indx(angajat).LAST LOOP
+            DBMS_OUTPUT.PUT_LINE('  Vehicul: ' || ang_vehicule_indx(angajat)(j).nr_inmatriculare || ', Traseu: ' ||ang_vehicule_indx(angajat)(j).traseu );
+        END LOOP;
+        angajat := ang_vehicule_indx.NEXT (angajat);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Cod Angajat: ' || angajat);
+        FOR j IN ang_vehicule_indx(angajat).FIRST .. ang_vehicule_indx(angajat).LAST LOOP
+            DBMS_OUTPUT.PUT_LINE('  Vehicul: ' || ang_vehicule_indx(angajat)(j).nr_inmatriculare || ', Traseu: ' ||ang_vehicule_indx(angajat)(j).traseu );
+        END LOOP;
+    EXCEPTION
+        WHEN exceptie THEN
+        DBMS_OUTPUT.PUT_LINE('Nu exista astfel de angajati');
+END colectii_ex_proiect;
+/
+BEGIN
+colectii_ex_proiect(1);
+    colectii_ex_proiect(5);
+END;
+/
+select * from trasee_stc;
+select distinct s.cod_statie, nume_statie, s.cod_traseu
+            from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+                    join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+                    join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+                    join statii_stc st on (st.cod_statie = s.cod_statie)
+            where a.cod_angajat ='A16';
+
+/
+--Pentru o sectie data sa se afle toate locatiile filialelor acesteia. 
+-- Sa se returneze codurile postale ale locatiilor intr-un string.
+CREATE OR REPLACE FUNCTION functie_proiect_coduri_postale
+ (v_sectie sectii_stc.nume_sectie%TYPE DEFAULT 'autobuz')
+RETURN VARCHAR2 AS
+    coduri_postale VARCHAR2(1000);
+    niciunCod EXCEPTION;
+    sectieGresita EXCEPTION;
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM sectii_stc
+    WHERE lower(nume_sectie) = lower(v_sectie);
+
+    IF v_count = 0 THEN
+        RAISE sectieGresita;
+    END IF;
+
+    FOR coduri IN 
+        (SELECT distinct cod_postal 
+         FROM locatii_stc l join filiale_stc f on (l.cod_locatie = f.cod_locatie)
+                            join sectii_stc s on (s.cod_sectie = f.cod_sectie)
+         WHERE lower(v_sectie) = lower(nume_sectie)) LOOP
+            coduri_postale := coduri_postale || coduri.cod_postal || ', ';
+         END LOOP;
+        IF coduri_postale IS NOT NULL THEN
+            coduri_postale := RTRIM(coduri_postale, ', ');
+        ELSE
+            RAISE niciunCod;
+        END IF;
+
+    RETURN coduri_postale;
+    
+    EXCEPTION
+    WHEN sectieGresita THEN
+        DBMS_OUTPUT.PUT_LINE('Exceptie: Nu exista o sectie cu acest nume: ' || v_sectie);
+        RETURN NULL;
+    WHEN niciunCod THEN
+        DBMS_OUTPUT.PUT_LINE('Exceptie: Nu exista coduri postale pentru sectia ' || v_sectie);
+        RETURN NULL;
+    WHEN too_many_rows THEN
+        DBMS_OUTPUT.PUT_LINE('Exceptie: Prea multe sectii cu numele ' || v_sectie);
+        RETURN NULL;
+        
+END functie_proiect_coduri_postale;
+/
+DECLARE
+    CoduriLocatii VARCHAR2(1000);
+    v_sectie Varchar2(20);
+BEGIN
+    v_sectie :='ananas';
+    CoduriLocatii := functie_proiect_coduri_postale(v_sectie);
+    
+    DBMS_OUTPUT.PUT_LINE('Pentru sectia ' || v_sectie || ' exista aceste coduri postale: ' || CoduriLocatii);
+END;
+/
+select * from departament_transport_stc;
+select * from sectii_stc;
+select * from locatii_stc;
+select * from filiale_stc;
+select * from joburi_stc;
+select * from sofer_stc;
+select * from angajati_stc;
+--Pentru fiecare departament de transport sa se afiseze 
+--angajatii sai, daca sunt sau nu soferi si numarul total de roti ale vehiculelor pe care le conduc in prezent
+/
+CREATE OR REPLACE FUNCTION este_sofer (v_cod_ang angajati_stc.cod_angajat%TYPE)
+RETURN VARCHAR2 AS rez NUMBER;
+BEGIN
+    SELECT count(*) INTO rez
+    FROM sofer_stc
+    WHERE cod_angajat = v_cod_ang;
+    IF rez = 0 THEN
+        RETURN 'nu';
+    else
+        RETURN 'da';
+    END IF;
+END este_sofer;
+/
+CREATE OR REPLACE PROCEDURE numar_roti_procedura_proiect
+AS
+    CURSOR departamente IS (SELECT * FROM departament_transport_stc);
+
+    v_bool VARCHAR2(2);
+    numar_roti NUMBER;
+BEGIN
+    FOR dep IN departamente LOOP
+        DBMS_OUTPUT.PUT_LINE('Departamentul ' || dep.nume_departament);
+        
+        FOR ang in (SELECT cod_angajat, nume
+                    FROM angajati_stc a JOIN sectii_stc s ON (a.cod_sectie = s.cod_sectie)
+                    WHERE tip_transport = dep.tip_transport) LOOP
+            v_bool := este_sofer(ang.cod_angajat);
+            DBMS_OUTPUT.PUT_LINE('- ' || ang.cod_angajat || ' ' || ang.nume || ', este sofer: ' ||v_bool);  
+            IF v_bool = 'da' THEN
+                select sum(nr_roti) INTO numar_roti
+                from(
+                    select  distinct v.nr_inmatriculare, nr_roti, c.cod_caract, nvl(data_expirare,sysdate+1) exp
+                    from vehicul_traseu_sofer v 
+                        join vehicule_stc  v2 on (v.nr_inmatriculare= v2.nr_inmatriculare)
+                        join tipuri_vehicule_stc tv on (v2.cod_tip_vehicul=tv.cod_tip_vehicul)
+                        join caracteristica_tip c on (tv.cod_tip_vehicul=c.cod_tip_vehicul)
+                        join caracteristici_stc car on (car.cod_caract=c.cod_caract)
+                    where nvl(data_expirare,sysdate+1)>sysdate --verificam ca inca conduce acest vehicul
+                    AND cod_angajat = ang.cod_angajat
+                );
+                 DBMS_OUTPUT.PUT_LINE('numar roti: ' || numar_roti);  
+            END IF;
+        END LOOP;
+        
+    END LOOP;
+
+END numar_roti_procedura_proiect;
+/
+
+CREATE OR REPLACE PROCEDURE numar_roti_procedura_proiect2 (nume_angajat angajati_stc.nume%TYPE)
+AS
+    
+    cod_angajat angajati_stc.cod_angajat%TYPE;
+    numar_roti NUMBER;
+    v_sofer VARCHAR2(2);
+    nu_e_sofer EXCEPTION;
+    nu_e_angajat EXCEPTION;
+BEGIN
+        SELECT cod_angajat INTO cod_angajat
+        FROM angajati_stc 
+        WHERE upper(nume) = upper(nume_angajat);
+        
+        v_sofer := este_sofer(cod_angajat);
+        DBMS_OUTPUT.PUT_LINE(cod_angajat);
+        IF v_sofer = 'nu' THEN RAISE nu_e_sofer; END IF;
+        
+                select sum(nr_roti) INTO numar_roti
+                from(
+                    select  distinct v.nr_inmatriculare, nr_roti, c.cod_caract, nvl(data_expirare,sysdate+1) exp
+                    from vehicul_traseu_sofer v 
+                        join vehicule_stc  v2 on (v.nr_inmatriculare= v2.nr_inmatriculare)
+                        join tipuri_vehicule_stc tv on (v2.cod_tip_vehicul=tv.cod_tip_vehicul)
+                        join caracteristica_tip c on (tv.cod_tip_vehicul=c.cod_tip_vehicul)
+                        join caracteristici_stc car on (car.cod_caract=c.cod_caract)
+                    where nvl(data_expirare,sysdate+1)>sysdate --verificam ca inca conduce acest vehicul
+                    AND cod_angajat = cod_angajat
+                );
+                 DBMS_OUTPUT.PUT_LINE('numar roti: ' || numar_roti);  
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE (' no data found: ' ||SQLCODE || ' - ' || SQLERRM);
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE (' too many rows: ' ||SQLCODE || ' - ' || SQLERRM);
+    WHEN nu_e_sofer THEN
+         DBMS_OUTPUT.PUT_LINE (' angajatul cautat nu e sofer ' );
+END numar_roti_procedura_proiect2;
+
+/
+DECLARE 
+cod_ang angajati_stc.cod_angajat%TYPE;
+nr_roti NUMBER;
+BEGIN
+    cod_ang:='Yuri';
+    numar_roti_procedura_proiect2(cod_ang);
+    
+END;
+/
+select * from tipuri_vehicule_stc;
+select * from vehicule_stc;
+select * from caracteristica_tip;
+--trigger care nu te lasa sa stergi un vehicul care nu e expirat (are data_expirare = null)
+/
+CREATE OR REPLACE TRIGGER trigger_proiect_vehicule
+    BEFORE DELETE ON vehicule_stc
+    FOR EACH ROW
+DECLARE
+    data_expirare caracteristica_tip.data_expirare%type;
+BEGIN
+    SELECT min(nvl(data_expirare, TO_DATE('1-1-1','DD-MM-YYYY'))) INTO data_expirare
+    FROM caracteristica_tip 
+    WHERE cod_tip_vehicul = :OLD.cod_tip_vehicul;
+    
+    IF data_expirare = TO_DATE('1-1-1','DD-MM-YYYY') THEN
+        RAISE_APPLICATION_ERROR(-20002,'vehiculul nu poate fi sters');
+    END IF;
+END;
+/
+DELETE FROM vehicule_stc
+WHERE cod_tip_vehicul = 'TV6';
+/
+CREATE OR REPLACE TRIGGER inserturi_zile_impare_luni_pare_proiect
+BEFORE INSERT OR UPDATE ON angajati_stc
+DECLARE 
+    v_zi NUMBER;
+    v_luna NUMBER;
+BEGIN
+    SELECT EXTRACT(DAY from SYSDATE), EXTRACT(MONTH from SYSDATE)
+    INTO v_zi, v_luna
+    FROM dual;
+    
+    IF MOD(v_zi, 2) = 1 AND MOD(v_luna, 2) = 0 THEN
+        RAISE_APPLICATION_ERROR (-20002, 'Azi e o zi impara intr-o luna para! Fara inserturi');
+    END IF;
+END inserturi_zile_impare_luni_pare_proiect;
+/
+select sysdate from dual;
+INSERT INTO angajati_stc VALUES ('B1', 'Manda', sysdate, 12, null, 'S0', 'l0');
+/
+CREATE SEQUENCE log_sequence
+    START WITH 1
+    MAXVALUE 99999999999999999999999999
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+CREATE TABLE tabel_log_proiect(
+   id_log NUMBER  DEFAULT log_sequence.NEXTVAL PRIMARY KEY,
+   tip_operatie VARCHAR2(10),
+    data_log TIMESTAMP default SYSTIMESTAMP,
+    executat_de VARCHAR2(100)
+);
+ALTER TABLE tabel_log_proiect
+MODIFY tip_operatie VARCHAR2(100);
+/
+CREATE OR REPLACE TRIGGER trigger_log_LDD 
+    AFTER CREATE OR ALTER OR DROP ON DATABASE
+DECLARE
+    v_user VARCHAR2(100);
+BEGIN
+    SELECT USER INTO v_user FROM dual;
+    INSERT INTO tabel_log_proiect (tip_operatie, executat_de)
+    VALUES (SYS.SYSEVENT, v_user);
+END;
+/
+drop trigger trigger_log_LDD;
+CREaTE TABLE testt (testt NUMBER DEFAULT 0);
+select * from tabel_log_proiect;
+drop table testt;
+/
+CREATE OR REPLACE PACKAGE pachet_proiect_stc AS
+    FUNCTION exista_angajat(v_nume_ang angajati_stc.nume%TYPE) 
+        RETURN BOOLEAN;
+    PROCEDURE colectii_ex_proiect(v_numar NUMBER);
+    PROCEDURE proiect_lungime_trasee (v_nume_ang IN angajati_stc.nume%TYPE);
+    FUNCTION functie_proiect_coduri_postale (v_sectie sectii_stc.nume_sectie%TYPE DEFAULT 'autobuz')
+        RETURN VARCHAR2;
+    FUNCTION este_sofer (v_cod_ang angajati_stc.cod_angajat%TYPE)
+        RETURN VARCHAR2;
+    PROCEDURE numar_roti_procedura_proiect2 (nume_angajat angajati_stc.nume%TYPE);
+END pachet_proiect_stc;
+/
+CREATE OR REPLACE PACKAGE BODY pachet_proiect_stc AS
+    FUNCTION exista_angajat(v_nume_ang angajati_stc.nume%TYPE) RETURN BOOLEAN 
+    AS v_cnt NUMBER; 
+    BEGIN
+        SELECT count(*) INTO v_cnt
+        FROM ANGAJATI_STC
+        WHERE upper(nume) = upper(v_nume_ang);
+        
+        IF v_cnt > 0 THEN RETURN TRUE;
+        ELSE RETURN FALSE;
+        END IF;
+    END;
+
+/********************************/
+    PROCEDURE colectii_ex_proiect (v_numar NUMBER)
+    AS
+    --procedura afla un tablou_indexat al angajatilor cu cel putin 3 vehicule
+        TYPE record_nr_traseu IS RECORD 
+            (nr_inmatriculare vehicul_traseu_sofer.nr_inmatriculare%TYPE,
+            traseu vehicul_traseu_sofer.cod_traseu%TYPE);
+                
+        TYPE tablou_imbricat IS TABLE OF record_nr_traseu;
+        TYPE tablou_indexat IS TABLE OF tablou_imbricat 
+                            INDEX BY angajati_stc.cod_angajat%TYPE;
+        TYPE vector IS VARRAY(26) OF angajati_stc.cod_angajat%TYPE; --numar de angajati din baza de date
+        ang vector:=vector(26);
+        ang_vehicule_indx tablou_indexat;
+        recs tablou_imbricat;
+        angajat angajati_stc.cod_angajat%TYPE;
+        exceptie EXCEPTION;
+    BEGIN
+        SELECT cod_angajat 
+        BULK COLLECT INTO ang
+        FROM angajati_stc;
+        
+        FOR i IN 1..ang.COUNT LOOP  
+            recs:= tablou_imbricat();
+            SELECT nr_inmatriculare, cod_traseu
+            BULK COLLECT INTO recs
+            FROM vehicul_traseu_sofer
+            WHERE cod_angajat = ang(i);
+            
+            IF recs.count >=v_numar THEN
+                ang_vehicule_indx(ang(i)) := recs;
+            END IF;
+    
+        END LOOP;
+        
+        IF ang_vehicule_indx.COUNT = 0 THEN
+            raise exceptie;
+        END IF;
+        angajat:= ang_vehicule_indx.FIRST;
+        WHILE angajat != ang_vehicule_indx.LAST LOOP  
+            DBMS_OUTPUT.PUT_LINE('Cod Angajat: ' || angajat);
+            FOR j IN ang_vehicule_indx(angajat).FIRST .. ang_vehicule_indx(angajat).LAST LOOP
+                DBMS_OUTPUT.PUT_LINE('  Vehicul: ' || ang_vehicule_indx(angajat)(j).nr_inmatriculare || ', Traseu: ' ||ang_vehicule_indx(angajat)(j).traseu );
+            END LOOP;
+            angajat := ang_vehicule_indx.NEXT (angajat);
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('Cod Angajat: ' || angajat);
+            FOR j IN ang_vehicule_indx(angajat).FIRST .. ang_vehicule_indx(angajat).LAST LOOP
+                DBMS_OUTPUT.PUT_LINE('  Vehicul: ' || ang_vehicule_indx(angajat)(j).nr_inmatriculare || ', Traseu: ' ||ang_vehicule_indx(angajat)(j).traseu );
+            END LOOP;
+        EXCEPTION
+            WHEN exceptie THEN
+            DBMS_OUTPUT.PUT_LINE('Nu exista astfel de angajati');
+    END colectii_ex_proiect;
+
+    /***********************/
+    PROCEDURE proiect_lungime_trasee
+        (v_nume_ang IN angajati_stc.nume%TYPE)
+    AS
+        TYPE cursor2 IS REF CURSOR;
+        c2 cursor2;
+        CURSOR c1 (v_subordonati angajati_stc.cod_angajat%TYPE) IS
+                (select distinct s.cod_statie, nume_statie, s.cod_traseu
+                from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+                        join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+                        join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+                        join statii_stc st on (st.cod_statie = s.cod_statie)
+                where a.cod_angajat =v_subordonati);
+           
+    
+        statie statie_unica_stc.cod_statie%TYPE;
+        nume_statie statii_stc.nume_statie%TYPE;
+        cod_traseu trasee_stc.cod_traseu%TYPE;
+        
+        subo angajati_stc.cod_angajat%TYPE;
+        cod_sef angajati_stc.cod_angajat%TYPE;
+        lungime_trasee NUMBER;
+        ok BOOLEAN;
+        exceptie_ang EXCEPTION;
+    
+    BEGIN
+        ok:=exista_angajat(v_nume_ang);
+        IF ok=FALSE then raise exceptie_ang; END IF;
+        
+        SELECT cod_angajat INTO cod_sef
+        FROM ANGAJATI_STC
+        WHERE upper(nume) = upper(v_nume_ang);
+    
+        OPEN c2 FOR
+            'SELECT cod_angajat
+            FROM ANGAJATI_STC
+            WHERE cod_sef = :v_cod_sef'
+            USING cod_sef;
+        
+        LOOP
+            FETCH c2 INTO subo;
+            EXIT WHEN c2%NOTFOUND;
+            DBMS_OUTPUT.PUT_LINE('Angajatul: '|| subo);
+    
+            OPEN c1(subo);
+            LOOP
+                FETCH c1 INTO statie, nume_statie, cod_traseu;
+                EXIT WHEN c1%NOTFOUND;
+                DBMS_OUTPUT.PUT_LINE('Statia: ' || statie ||' '||nume_statie|| ', din traseul: ' ||cod_traseu);
+            END LOOP;
+            IF c1%ROWCOUNT=0 THEN
+                DBMS_OUTPUT.PUT_LINE('Acest angajat nu conduce pe niciun traseu');
+            ELSE 
+                SELECT sum(lungime) INTO lungime_trasee
+                FROM trasee_stc WHERE cod_traseu IN
+                (
+                    select distinct s.cod_traseu
+                    from vehicul_traseu_sofer vts join trasee_stc t on (vts.cod_traseu= t.cod_traseu) 
+                            join statie_unica_stc s on (s.cod_traseu= t.cod_traseu) 
+                            join angajati_stc a on (vts.cod_angajat= a.cod_angajat) 
+                            join statii_stc st on (st.cod_statie = s.cod_statie)
+                    where a.cod_angajat =subo
+                );           
+                
+                DBMS_OUTPUT.PUT_LINE('Suma lungimilor traseelor parcurse de acest angajat este: ' || lungime_trasee);
+            END IF;
+            CLOSE c1;
+        END LOOP;
+        IF c2%ROWCOUNT=0 THEN
+            DBMS_OUTPUT.PUT_LINE('Nu am gasit niciun subordonat al lui' || v_nume_ang);
+        END IF;
+        CLOSE c2;
+        EXCEPTION
+            WHEN exceptie_ang THEN
+                DBMS_OUTPUT.PUT_LINE('Nu am gasit angajat cu numele ' || v_nume_ang);
+            WHEN too_many_rows THEN
+                DBMS_OUTPUT.PUT_LINE('Prea multi angajati cu numele ' || v_nume_ang);
+    END proiect_lungime_trasee;
+
+    /****************************/
+    FUNCTION functie_proiect_coduri_postale
+ (v_sectie sectii_stc.nume_sectie%TYPE DEFAULT 'autobuz')
+        RETURN VARCHAR2 AS
+            coduri_postale VARCHAR2(1000);
+            niciunCod EXCEPTION;
+            sectieGresita EXCEPTION;
+            v_count NUMBER;
+        BEGIN
+            SELECT COUNT(*)
+            INTO v_count
+            FROM sectii_stc
+            WHERE lower(nume_sectie) = lower(v_sectie);
+        
+            IF v_count = 0 THEN
+                RAISE sectieGresita;
+            END IF;
+        
+            FOR coduri IN 
+                (SELECT distinct cod_postal 
+                 FROM locatii_stc l join filiale_stc f on (l.cod_locatie = f.cod_locatie)
+                                    join sectii_stc s on (s.cod_sectie = f.cod_sectie)
+                 WHERE lower(v_sectie) = lower(nume_sectie)) LOOP
+                    coduri_postale := coduri_postale || coduri.cod_postal || ', ';
+                 END LOOP;
+                IF coduri_postale IS NOT NULL THEN
+                    coduri_postale := RTRIM(coduri_postale, ', ');
+                ELSE
+                    RAISE niciunCod;
+                END IF;
+        
+            RETURN coduri_postale;
+            
+            EXCEPTION
+            WHEN sectieGresita THEN
+                DBMS_OUTPUT.PUT_LINE('Exceptie: Nu exista o sectie cu acest nume: ' || v_sectie);
+                RETURN NULL;
+            WHEN niciunCod THEN
+                DBMS_OUTPUT.PUT_LINE('Exceptie: Nu exista coduri postale pentru sectia ' || v_sectie);
+                RETURN NULL;
+                
+        END functie_proiect_coduri_postale;
+    /****************************************/
+    FUNCTION este_sofer (v_cod_ang angajati_stc.cod_angajat%TYPE)
+        RETURN VARCHAR2 AS rez NUMBER;
+        BEGIN
+            SELECT count(*) INTO rez
+            FROM sofer_stc
+            WHERE cod_angajat = v_cod_ang;
+            IF rez = 0 THEN
+                RETURN 'nu';
+            else
+                RETURN 'da';
+            END IF;
+        END este_sofer;
+    /**************************/
+    PROCEDURE numar_roti_procedura_proiect2 (nume_angajat angajati_stc.nume%TYPE)
+        AS
+            
+            cod_angajat angajati_stc.cod_angajat%TYPE;
+            numar_roti NUMBER;
+            v_sofer VARCHAR2(2);
+            nu_e_sofer EXCEPTION;
+        BEGIN
+                   
+                SELECT cod_angajat INTO cod_angajat
+                FROM angajati_stc 
+                WHERE upper(nume) = upper(nume_angajat);
+                
+                v_sofer := este_sofer(cod_angajat);
+                DBMS_OUTPUT.PUT_LINE(cod_angajat);
+                IF v_sofer = 'nu' THEN RAISE nu_e_sofer; END IF;
+                
+                        select sum(nr_roti) INTO numar_roti
+                        from(
+                            select  distinct v.nr_inmatriculare, nr_roti, c.cod_caract, nvl(data_expirare,sysdate+1) exp
+                            from vehicul_traseu_sofer v 
+                                join vehicule_stc  v2 on (v.nr_inmatriculare= v2.nr_inmatriculare)
+                                join tipuri_vehicule_stc tv on (v2.cod_tip_vehicul=tv.cod_tip_vehicul)
+                                join caracteristica_tip c on (tv.cod_tip_vehicul=c.cod_tip_vehicul)
+                                join caracteristici_stc car on (car.cod_caract=c.cod_caract)
+                            where nvl(data_expirare,sysdate+1)>sysdate --verificam ca inca conduce acest vehicul
+                            AND cod_angajat = cod_angajat
+                        );
+                         DBMS_OUTPUT.PUT_LINE('numar roti: ' || numar_roti);  
+        
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                DBMS_OUTPUT.PUT_LINE (' no data found: ' ||SQLCODE || ' - ' || SQLERRM);
+            WHEN TOO_MANY_ROWS THEN
+                DBMS_OUTPUT.PUT_LINE (' too many rows: ' ||SQLCODE || ' - ' || SQLERRM);
+            WHEN nu_e_sofer THEN
+                 DBMS_OUTPUT.PUT_LINE (' angajatul cautat nu e sofer ' );
+        END numar_roti_procedura_proiect2;
+        
+/************************************/
+
+END pachet_proiect_stc;
+/
+DECLARE 
+    v_nume angajati_stc.nume%TYPE;
+    cod_sef angajati_stc.cod_angajat%TYPE;
+BEGIN
+    v_nume :='Dionys';
+    pachet_proiect_stc.proiect_lungime_trasee(v_nume);
+END;
+
+/
+select * from angajati_stc;
+/
+CREATE OR REPLACE PACKAGE pachet_proiect_complex_stc AS
+    TYPE lista_LOCATII IS TABLE OF locatii_stc.cod_locatie%TYPE;
+    
+    TYPE record_sectii_locatii IS RECORD (sal angajati_stc.salariu%type, lista_loc lista_LOCATII);
+    TYPE t_indexat_sectii IS TABLE OF angajati_stc.salariu%type
+            INDEX BY angajati_stc.cod_sectie%TYPE;
+    sectii_salariu t_indexat_sectii;
+    salariu_sum angajati_stc.salariu%type;
+    TYPE t_indexat_sectii_record IS TABLE OF record_sectii_locatii
+            INDEX BY angajati_stc.cod_sectie%TYPE;
+    PROCEDURE tabel_record;
+    tabel t_indexat_sectii_record;
+    FUNCTION sal_sum_pt_sectie (cod_sectie angajati_stc.cod_sectie%TYPE)
+        RETURN angajati_stc.salariu%type;
+    PROCEDURE afisare_date_sal_sum;
+    PROCEDURE initializare_sal_sum;
+    CURSOR cursor_sectii IS (select cod_sectie from sectii_stc);
+    CURSOR cursor_locatii_per_sectie(v_sectie angajati_stc.cod_sectie%TYPE)
+        IS (SELECT cod_locatie FROM angajati_stc WHERE cod_sectie= v_sectie);
+    FUNCTION exista_l(l lista_LOCATII, v locatii_stc.cod_locatie%TYPE) RETURN BOOLEAN;
+END pachet_proiect_complex_stc;
+/
+CREATE OR REPLACE PACKAGE BODY pachet_proiect_complex_stc AS
+    FUNCTION exista_l(l lista_LOCATII, v locatii_stc.cod_locatie%TYPE) RETURN BOOLEAN
+    AS b BOOLEAN;
+    BEGIN
+        b:=false;
+        FOR i in 1..l.last LOOP
+            IF l(i) = v THEN b:=true; END IF;
+        END LOOP;
+        RETURN b;
+    END;
+    PROCEDURE tabel_record 
+    AS
+    rec record_sectii_locatii;
+     v_cod sectii_stc.cod_sectie%TYPE;
+     
+    BEGIN
+        initializare_sal_sum;
+        OPEN cursor_sectii;
+        LOOP
+            FETCH cursor_sectii INTO v_cod;
+            EXIT WHEN cursor_sectii%NOTFOUND;
+            rec.sal:=sectii_salariu(v_cod);
+            
+            SELECT distinct nvl(cod_locatie,'no') BULK COLLECT INTO rec.lista_loc
+            FROM angajati_stc WHERE cod_sectie = v_cod AND cod_locatie IS NOT NULL;
+            
+            tabel(v_cod):=rec;
+            
+        END LOOP;  
+        CLOSE cursor_sectii;
+    END tabel_record;
+    PROCEDURE afisare_date_sal_sum
+    AS
+        sectie angajati_stc.cod_sectie%TYPE;
+        cnt Number;
+        exceptie EXCEPTION;
+        nr_sectii NUMBER;
+    BEGIN
+        cnt := sectii_salariu.COUNT;
+        SELECT count(*) INTO nr_sectii from sectii_stc;
+        IF cnt <nr_sectii THEN 
+            raise exceptie;
+        END IF;
+        sectie := sectii_salariu.FIRST;
+        WHILE sectie!= sectii_salariu.LAST LOOP
+            DBMS_OUTPUT.PUT_LINE('Sectia ' || sectie || ' are suma salariilor: '|| sectii_salariu(sectie));
+            sectie:= sectii_salariu.NEXT(sectie);
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('Sectia ' || sectie || ' are suma salariilor: '|| sectii_salariu(sectie));
+    EXCEPTION
+        WHEN exceptie THEN
+             DBMS_OUTPUT.PUT_LINE ('Nu sunt toate sectiile completate, mai incercati o data.');
+             initializare_sal_sum;
+    END afisare_date_sal_sum;
+    /********************************/
+    FUNCTION sal_sum_pt_sectie (cod_sectie angajati_stc.cod_sectie%TYPE)
+        RETURN angajati_stc.salariu%type 
+        AS sal_sum angajati_stc.salariu%type; q VARCHAR2(300);
+    BEGIN
+        q := 'SELECT SUM(salariu) FROM angajati_stc ' || 'WHERE cod_sectie = :v_sectie';
+        EXECUTE IMMEDIATE q
+        INTO sal_sum
+        USING cod_sectie;
+        
+        sectii_salariu(cod_sectie):=sal_sum;
+        RETURN sal_sum;
+     END sal_sum_pt_sectie;
+     /***************************/
+     PROCEDURE initializare_sal_sum AS
+        v_cod angajati_stc.cod_sectie%TYPE;
+        aux angajati_stc.salariu%TYPE;
+    BEGIN
+        salariu_sum:=0;
+        OPEN cursor_sectii;
+        LOOP
+            FETCH cursor_sectii INTO v_cod;
+            EXIT WHEN cursor_sectii%NOTFOUND;
+            aux:=sal_sum_pt_sectie(v_cod);
+            salariu_sum:=salariu_sum +aux;
+        END LOOP;  
+        CLOSE cursor_sectii;
+        salariu_sum:= salariu_sum;
+     END initializare_sal_sum;
+END pachet_proiect_complex_stc;
+/
+DECLARE
+ sec angajati_stc.cod_sectie%TYPE;
+ rez NUMBER;
+ tabel_rezultat pachet_proiect_complex_stc.t_indexat_sectii_record;
+BEGIN
+    sec:='S0';
+    /*rez := pachet_proiect_complex_stc.sal_mediu_pt_sectie(sec);*/
+    
+    /*DBMS_OUTPUT.PUT_LINE(rez);  */
+    /*pachet_proiect_complex_stc.initializare_sal_mediu;*/
+    pachet_proiect_complex_stc.afisare_date_sal_sum;
+    /*tabel_rezultat := pachet_proiect_complex_stc.tabel_record;
+    DBMS_OUTPUT.PUT_LINE(tabel_rezultat(sec).sal);*/
+END;
+/
+/*sa se creeze unul/ mai multi triggeri care nu permite ca suma salariului in 
+sectii cu mai putin de 3 locatii sau cu locatia L0 sa fie 9000, si care verifica ca suma totala a 
+salariilor sa nu fie 9001
+Sa se afiseze datele inainte de modificare
+*/
+CREATE OR REPLACE TRIGGER trg_complex_1_stc
+BEFORE INSERT OR UPDATE OF salariu ON angajati_stc
+DECLARE v sectii_stc.cod_sectie%type;
+BEGIN
+    OPEN  pachet_proiect_complex_stc.cursor_sectii;
+        LOOP
+            FETCH  pachet_proiect_complex_stc.cursor_sectii INTO v;
+            EXIT WHEN pachet_proiect_complex_stc.cursor_sectii%NOTFOUND;
+            pachet_proiect_complex_stc.sectii_salariu(v):=0;
+        END LOOP;  
+        CLOSE  pachet_proiect_complex_stc.cursor_sectii;
+       
+     
+    pachet_proiect_complex_stc.tabel_record;
+    DBMS_OUTPUT.PUT_LINE('INAINTE----------------');
+    pachet_proiect_complex_stc.afisare_date_sal_sum;
+    
+END;
+/
+CREATE OR REPLACE TRIGGER trg_complex_2_stc
+BEFORE INSERT OR UPDATE OF salariu ON angajati_stc
+FOR EACH ROW
+DECLARE
+    b BOOLEAN;
+    cnt NUMBER;
+    sec sectii_stc.cod_sectie%TYPE;
+BEGIN
+    sec:= pachet_proiect_complex_stc.tabel.FIRST;
+     
+    WHILE sec IS NOT NULL LOOP
+    DBMS_OUTPUT.PUT_LINE('Inside loop for section ' || sec);
+        IF pachet_proiect_complex_stc.tabel(sec).lista_loc IS NULL THEN
+            cnt := 0;
+        ELSE
+            cnt := pachet_proiect_complex_stc.tabel(sec).lista_loc.COUNT();
+        END IF;
+        b:=pachet_proiect_complex_stc.exista_l(pachet_proiect_complex_stc.tabel(sec).lista_loc, 'L0');
+         IF cnt IS NOT NULL THEN
+            DBMS_OUTPUT.PUT_LINE(cnt);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Count is NULL');
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(sys.diutil.bool_to_int(b));
+        IF (cnt<3 OR b = TRUE) AND sec = :OLD.cod_sectie THEN
+            DBMS_OUTPUT.PUT_LINE('a');
+            IF pachet_proiect_complex_stc.tabel(sec).sal - :OLD.salariu + :NEW.salariu>20000 THEN
+                RAISE_APPLICATION_ERROR(-20000,'Sectia '||sec||'  depaseste salariul admis.');
+                
+            null;
+            END IF;
+            EXIT;
+        END IF;
+        pachet_proiect_complex_stc.sectii_salariu(sec):=pachet_proiect_complex_stc.tabel(sec).sal - :OLD.salariu + :NEW.salariu;
+        sec:=pachet_proiect_complex_stc.tabel.NEXT(sec);
+     END LOOP;    
+      
+END;
+/
+UPdate angajati_stc SET salariu = 15000 ;
+rollback;
+commit;
+/
+select * from angajati_stc;
